@@ -11,6 +11,8 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
+TalonSRX srx = {0};
+
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
