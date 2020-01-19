@@ -23,6 +23,7 @@
 
 //Piston Fire-Solenoid setup    
 frc::DoubleSolenoid ds { 0, 0, 1};
+frc::DoubleSolenoid dsole { 0, 0, 1};
 //Sets up controller and Motor subsystems
 frc::XboxController Controller1{0};
 //Basic Motor Control bases
@@ -61,10 +62,12 @@ void Robot::TeleopPeriodic() {
 
    if (Controller1.GetAButton()) {
         ds.Set(frc::DoubleSolenoid::Value::kForward);
+        dsole.Set(frc::DoubleSolenoid::Value::kForward);
     }
 
     if (Controller1.GetYButton()) {
         ds.Set(frc::DoubleSolenoid::Value::kReverse);
+        dsole.Set(frc::DoubleSolenoid::Value::kReverse);
     }
     
       srxFL.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
