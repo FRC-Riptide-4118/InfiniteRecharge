@@ -28,7 +28,9 @@ TalonSRX srxML = {2};
 TalonSRX srxFR = {4};
 TalonSRX srxMR = {5};
 
-frc::SpeedControllerGroup 
+frc::SpeedControllerGroup left(srxFL, srxML);
+frc::SpeedControllerGroup right(srxFR, srxMR);
+
 
 //Falcon 500 setup
 TalonFX FX1 = {6};
