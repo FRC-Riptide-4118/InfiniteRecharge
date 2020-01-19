@@ -6,30 +6,29 @@
 /*----------------------------------------------------------------------------*/
 
 #include <iostream>
-
 #include "Robot.h"
-
 #include "ctre/Phoenix.h"
-
 #include <frc/GenericHID.h>
-
 #include <frc/XboxController.h>
-
 #include <frc/Solenoid.h>
-
 #include <frc/SolenoidBase.h>
-
 #include <frc/DoubleSolenoid.h>
+
 
 //Piston Fire-Solenoid setup    
 frc::DoubleSolenoid ds { 0, 0, 1};
+
 //Sets up controller and Motor subsystems
 frc::XboxController Controller1{0};
+
 //Basic Motor Control bases
 TalonSRX srxML = {1};
 TalonSRX srxFL = {2};
 TalonSRX srxMR = {4};
 TalonSRX srxFR = {5};
+
+
+
 //Falcon 500 setup
 TalonFX FX1 = {6};
 TalonFX FX2 = {7};
