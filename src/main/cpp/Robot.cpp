@@ -26,13 +26,11 @@ frc::DoubleSolenoid dsole { 0, 0, 1};
 frc::XboxController Controller1{0};
 
 //Basic Motor Control bases
-TalonSRX srxFL = {1};
-TalonSRX srxML = {2};
-TalonSRX srxFR = {4};
-TalonSRX srxMR = {5};
 
-frc::SpeedControllerGroup left(srxFL, srxML);
-frc::SpeedControllerGroup right(srxFR, srxMR);
+WPI_TalonSRX srxFL = {1};
+WPI_TalonSRX srxML = {2};
+WPI_TalonSRX srxFR = {4};
+WPI_TalonSRX srxMR = {5};
 
 frc::DifferentialDrive drive(left, right);
 
