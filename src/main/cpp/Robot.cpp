@@ -31,6 +31,7 @@ TalonSRX srxMR = {5};
 frc::SpeedControllerGroup left(srxFL, srxML);
 frc::SpeedControllerGroup right(srxFR, srxMR);
 
+frc::DifferentialDrive drive(left, right);
 
 //Falcon 500 setup
 TalonFX FX1 = {6};
