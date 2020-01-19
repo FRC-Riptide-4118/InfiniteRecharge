@@ -17,11 +17,11 @@
 #include <frc/SpeedControllerGroup.h>
 
 
-
 //Piston Fire-Solenoid setup    
 frc::DoubleSolenoid ds { 0, 0, 1};
 
 frc::DoubleSolenoid dsole { 0, 0, 1};
+
 //Sets up controller and Motor subsystems
 frc::XboxController Controller1{0};
 
