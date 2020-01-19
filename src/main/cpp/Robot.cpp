@@ -1,70 +1,90 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Robot.h"
-
 #include <iostream>
 
-#include <frc/smartdashboard/SmartDashboard.h>
+#include "Robot.h"
 
-TalonSRX srx = {0};
+#include "ctre/Phoenix.h"
+
+#include <frc/GenericHID.h>
+
+#include <frc/XboxController.h>
+
+#include <frc/Solenoid.h>
+
+#include <frc/SolenoidBase.h>
+
+#include <frc/DoubleSolenoid.h>
+
+//Piston Fire-Solenoid setup    
+frc::DoubleSolenoid ds { 0, 0, 1};
+//Sets up controller and Motor subsystems
+frc::XboxController Controller1{0};
+//Basic Motor Control bases
+TalonSRX srxML = {1};
+TalonSRX srxFL = {2};
+TalonSRX srxMR = {4};
+TalonSRX srxFR = {5};
+//Falcon 500 setup
+TalonFX FX1 = {6};
+TalonFX FX2 = {7};
+
 
 void Robot::RobotInit() {
-  m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-  m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+
+    srxFL.Set(ControlMode::PercentOutput, 0);
+    srxFR.Set(ControlMode::PercentOutput, 0);
+    srxML.Set(ControlMode::PercentOutput, 0);
+    srxMR.Set(ControlMode::PercentOutput, 0);
+
+    FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
 }
 
-/**
- * This function is called every robot packet, no matter the mode. Use
- * this for items like diagnostics that you want ran during disabled,
- * autonomous, teleoperated and test.
- *
- * <p> This runs after the mode specific periodic functions, but before
- * LiveWindow and SmartDashboard integrated updating.
- */
-void Robot::RobotPeriodic() {}
+void Robot::AutonomousInit() {}
+void Robot::AutonomousPeriodic() {}
 
-/**
- * This autonomous (along with the chooser code above) shows how to select
- * between different autonomous modes using the dashboard. The sendable chooser
- * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
- * remove all of the chooser code and uncomment the GetString line to get the
- * auto name from the text box below the Gyro.
- *
- * You can add additional auto modes by adding additional comparisons to the
- * if-else structure below with additional strings. If using the SendableChooser
- * make sure to add them to the chooser code above as well.
- */
-void Robot::AutonomousInit() {
-  m_autoSelected = m_chooser.GetSelected();
-  // m_autoSelected = SmartDashboard::GetString("Auto Selector",
-  //     kAutoNameDefault);
-  std::cout << "Auto selected: " << m_autoSelected << std::endl;
+void Robot::TeleopInit() {
+    
+    srxFL.Set(ControlMode::PercentOutput, 0);
+    srxFR.Set(ControlMode::PercentOutput, 0);
+    srxML.Set(ControlMode::PercentOutput, 0);
+    srxMR.Set(ControlMode::PercentOutput, 0);
+}
+void Robot::TeleopPeriodic() {
 
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
-  }
+    std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
+
+   if (Controller1.GetAButton()) {
+        ds.Set(frc::DoubleSolenoid::Value::kForward);
+    }
+
+    if (Controller1.GetYButton()) {
+        ds.Set(frc::DoubleSolenoid::Value::kReverse);
+    }
+    
+      srxFL.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+      srxFR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+      srxML.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+      srxMR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+     
+    //if (Controller1.GetXButtonPressed()) {
+       // FX1.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+       // FX2.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+   // }
+
+    //if (Controller1.GetXButtonReleased()) {
+    //    FX1.Set(ControlMode::PercentOutput, 0);
+    //    FX2.Set(ControlMode::PercentOutput, 0);
+
+   // }
 }
 
-void Robot::AutonomousPeriodic() {
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
-  }
-}
-
-void Robot::TeleopInit() {}
-
-void Robot::TeleopPeriodic() {}
-
+void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
