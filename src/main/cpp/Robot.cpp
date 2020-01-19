@@ -77,22 +77,33 @@ void Robot::TeleopPeriodic() {
     else if (Controller1.GetAButtonReleased()) {
         dsole.Set(frc::DoubleSolenoid::Value::kReverse);
     }
-    
-      srxFL.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-      srxFR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-      srxML.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-      srxMR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-     
-    //if (Controller1.GetXButtonPressed()) {
-       // FX1.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-       // FX2.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-   // }
 
-    //if (Controller1.GetXButtonReleased()) {
-    //    FX1.Set(ControlMode::PercentOutput, 0);
-    //    FX2.Set(ControlMode::PercentOutput, 0);
+// Motor control
 
-   // }
+    drive.ArcadeDrive(0.6, 0, true);
+
+    // left.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
+    // right.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand));
+
+    //   srxFL.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+    //   srxFR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+    //   srxML.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+    //   srxMR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+
+//Shooter Control
+
+    if (Controller1.GetXButtonPressed()) {
+
+        FX1.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+        FX2.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+
+    }
+
+    else if (Controller1.GetXButtonReleased()) {
+        FX1.Set(ControlMode::PercentOutput, 0);
+        FX2.Set(ControlMode::PercentOutput, 0);
+
+    }
 }
 
 void Robot::TestInit() {}
