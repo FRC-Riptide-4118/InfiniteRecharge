@@ -72,15 +72,19 @@ void Robot::TeleopPeriodic() {
 // Pneumatics control
    if (Controller1.GetAButtonPressed()) {
         dsole.Set(frc::DoubleSolenoid::Value::kForward);
+        std::cout << Controller1.GetAButton() << std::endl;
     }
 
     else if (Controller1.GetAButtonReleased()) {
         dsole.Set(frc::DoubleSolenoid::Value::kReverse);
+        std::cout << Controller1.GetAButton() << std::endl;
     }
 
 // Motor control
 
+
     drive.ArcadeDrive(0.6, 0, true);
+
 
     // left.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
     // right.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand));
