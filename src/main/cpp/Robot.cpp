@@ -18,6 +18,7 @@
 //Piston Fire-Solenoid setup    
 frc::DoubleSolenoid ds { 0, 0, 1};
 
+frc::DoubleSolenoid dsole { 0, 0, 1};
 //Sets up controller and Motor subsystems
 frc::XboxController Controller1{0};
 
@@ -27,7 +28,7 @@ TalonSRX srxML = {2};
 TalonSRX srxFR = {4};
 TalonSRX srxMR = {5};
 
-
+frc::SpeedControllerGroup 
 
 //Falcon 500 setup
 TalonFX FX1 = {6};
@@ -60,10 +61,12 @@ void Robot::TeleopPeriodic() {
 
    if (Controller1.GetAButton()) {
         ds.Set(frc::DoubleSolenoid::Value::kForward);
+        dsole.Set(frc::DoubleSolenoid::Value::kForward);
     }
 
     if (Controller1.GetYButton()) {
         ds.Set(frc::DoubleSolenoid::Value::kReverse);
+        dsole.Set(frc::DoubleSolenoid::Value::kReverse);
     }
     
       srxFL.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
