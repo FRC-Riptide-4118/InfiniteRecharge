@@ -69,8 +69,8 @@ void Robot::TeleopPeriodic() {
 
     std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
 
-   if (Controller1.GetAButton()) {
-        ds.Set(frc::DoubleSolenoid::Value::kForward);
+// Pneumatics control
+   if (Controller1.GetAButtonPressed()) {
         dsole.Set(frc::DoubleSolenoid::Value::kForward);
     }
 
