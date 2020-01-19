@@ -56,11 +56,14 @@ void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-    
-    srxFL.Set(ControlMode::PercentOutput, 0);
-    srxFR.Set(ControlMode::PercentOutput, 0);
-    srxML.Set(ControlMode::PercentOutput, 0);
-    srxMR.Set(ControlMode::PercentOutput, 0);
+//Intial speed set of the motors
+    // srxFL.Set(ControlMode::PercentOutput, 0);
+    // srxFR.Set(ControlMode::PercentOutput, 0);
+    // srxML.Set(ControlMode::PercentOutput, 0);
+    // srxMR.Set(ControlMode::PercentOutput, 0);
+
+    FX1.Set(ControlMode::PercentOutput, 0);
+    FX2.Set(ControlMode::PercentOutput, 0);
 }
 void Robot::TeleopPeriodic() {
 
