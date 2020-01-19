@@ -22,10 +22,10 @@ frc::DoubleSolenoid ds { 0, 0, 1};
 frc::XboxController Controller1{0};
 
 //Basic Motor Control bases
-TalonSRX srxML = {1};
-TalonSRX srxFL = {2};
-TalonSRX srxMR = {4};
-TalonSRX srxFR = {5};
+TalonSRX srxFL = {1};
+TalonSRX srxML = {2};
+TalonSRX srxFR = {4};
+TalonSRX srxMR = {5};
 
 
 
