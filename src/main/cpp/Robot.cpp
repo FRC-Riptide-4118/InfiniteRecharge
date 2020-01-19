@@ -74,8 +74,7 @@ void Robot::TeleopPeriodic() {
         dsole.Set(frc::DoubleSolenoid::Value::kForward);
     }
 
-    if (Controller1.GetYButton()) {
-        ds.Set(frc::DoubleSolenoid::Value::kReverse);
+    else if (Controller1.GetAButtonReleased()) {
         dsole.Set(frc::DoubleSolenoid::Value::kReverse);
     }
     
