@@ -93,16 +93,7 @@ void Robot::TeleopPeriodic() {
     drive.ArcadeDrive(0.6, 0, true);
 
 // turning function
-    drive.ArcadeDrive(0, turning, true));
-
-
-    // left.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
-    // right.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand));
-
-    //   srxFL.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-    //   srxFR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-    //   srxML.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-    //   srxMR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+    drive.ArcadeDrive(0, turning, true);
 
 //Shooter Control
 
