@@ -89,11 +89,9 @@ void Robot::TeleopPeriodic() {
         std::cout << Controller1.GetAButton() << std::endl;
     }
 
-// Motor control
-    drive.ArcadeDrive(0.6, 0, true);
 
-// turning function
-    drive.ArcadeDrive(0, turning, true);
+// turning & Driving function
+    drive.ArcadeDrive(Yaxis, Xaxis, true);
 
 //Shooter Control
 
