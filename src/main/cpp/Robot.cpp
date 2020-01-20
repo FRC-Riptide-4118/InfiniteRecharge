@@ -56,8 +56,12 @@ void Robot::RobotInit() {
     FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
 }
 
-void Robot::AutonomousInit() {}
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousInit() {
+
+}
+void Robot::AutonomousPeriodic() {
+    dsole.Set(frc::DoubleSolenoid::Value::kForward);
+}
 
 void Robot::TeleopInit() {
 //when teleop Intialy starts sets speed of all the motors
@@ -70,8 +74,12 @@ void Robot::TeleopPeriodic() {
 
     std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
 
+    if (Controller1.GetStickButtonPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
+        dsole.Set(frc::DoubleSolenoid::Value::kReverse);
+    }
+
 // Pneumatics control
-   if (Controller1.GetAButtonPressed()) {
+    if (Controller1.GetAButtonPressed()) {
         dsole.Set(frc::DoubleSolenoid::Value::kForward);
         std::cout << Controller1.GetAButton() << std::endl;
     }
