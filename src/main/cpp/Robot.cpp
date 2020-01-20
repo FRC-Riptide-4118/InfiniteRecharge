@@ -81,9 +81,10 @@ void Robot::TeleopPeriodic() {
     }
 
 // Motor control
-
-
     drive.ArcadeDrive(0.6, 0, true);
+
+// turning function
+    drive.ArcadeDrive(0, turning, true));
 
 
     // left.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
