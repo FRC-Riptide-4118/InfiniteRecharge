@@ -17,6 +17,10 @@
 #include <frc/SpeedControllerGroup.h>
 
 
+//double variable for defining a turning # between -1 to 1 based on the axis of the right hand joystick
+
+double turning = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
+
 //Piston Fire-Solenoid setup    
 
 frc::DoubleSolenoid dsole { 0, 0, 1};
