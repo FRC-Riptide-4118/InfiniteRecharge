@@ -40,7 +40,8 @@ WPI_TalonSRX srxMR = {5};
 
  //double variable for defining a turning & driving # between -1 to 1 based on the axis of the right hand joystick
 
-double turning = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
+double Xaxis = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
+double Yaxis = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
 
 //Falcon 500 setup
 TalonFX FX1 = {6};
