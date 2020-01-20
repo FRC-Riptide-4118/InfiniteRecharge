@@ -48,10 +48,9 @@ TalonFX FX2 = {7};
 
 void Robot::RobotInit() {
 
-    srxFL.Set(ControlMode::PercentOutput, 0);
-    srxFR.Set(ControlMode::PercentOutput, 0);
-    srxML.Set(ControlMode::PercentOutput, 0);
-    srxMR.Set(ControlMode::PercentOutput, 0);
+//Initial speed of the motors
+        drive.ArcadeDrive(0, 0, 0);
+
 
     FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
 }
@@ -60,14 +59,11 @@ void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-//Intial speed set of the motors
-    // srxFL.Set(ControlMode::PercentOutput, 0);
-    // srxFR.Set(ControlMode::PercentOutput, 0);
-    // srxML.Set(ControlMode::PercentOutput, 0);
-    // srxMR.Set(ControlMode::PercentOutput, 0);
+//when teleop Intialy starts sets speed of all the motors
+    drive.ArcadeDrive(0, 0, 0);
 
     FX1.Set(ControlMode::PercentOutput, 0);
-    FX2.Set(ControlMode::PercentOutput, 0);
+
 }
 void Robot::TeleopPeriodic() {
 
