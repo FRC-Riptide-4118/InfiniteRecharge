@@ -18,6 +18,7 @@
 
 
 
+
 //Piston Fire-Solenoid setup    
 
 frc::DoubleSolenoid dsole { 0, 0, 1};
@@ -48,11 +49,12 @@ TalonFX FX1 = {6};
 TalonFX FX2 = {7};
 
 
+
 void Robot::RobotInit() {
+
 
 //Initial speed of the motors
         drive.ArcadeDrive(0, 0, 0);
-
 
     FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
 }
