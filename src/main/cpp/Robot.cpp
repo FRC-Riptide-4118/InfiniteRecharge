@@ -110,6 +110,12 @@ void Robot::TeleopPeriodic() {
         FX2.Set(ControlMode::PercentOutput, 0);
 
     }
+
+    if (Controller1.GetStartButton()) {
+        std::cout << "Sensor Left Velocity :" << srxFL.GetSelectedSensorVelocity() << std::endl;
+        std::cout << "Sensor Left Position: " << srxFL.GetSelectedSensorPosition() << std::endl;
+        std::cout << "Left Output %: " << srxFL.GetMotorOutputPercent() << std::endl;
+    }
 }
 
 void Robot::TestInit() {}
