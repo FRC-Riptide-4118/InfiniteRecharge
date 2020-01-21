@@ -76,7 +76,7 @@ void Robot::TeleopInit() {
 }
 void Robot::TeleopPeriodic() {
 
-   // std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
+    std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
 
     if (Controller1.GetStickButtonPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
         dsole.Set(frc::DoubleSolenoid::Value::kReverse);
