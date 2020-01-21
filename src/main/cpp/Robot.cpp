@@ -82,17 +82,6 @@ void Robot::TeleopPeriodic() {
         dsole.Set(frc::DoubleSolenoid::Value::kReverse);
     }
 
-// Pneumatics control
-    if (Controller1.GetAButtonPressed()) {
-        dsole.Set(frc::DoubleSolenoid::Value::kForward);
-        std::cout << Controller1.GetAButton() << std::endl;
-    }
-
-    else if (Controller1.GetAButtonReleased()) {
-        dsole.Set(frc::DoubleSolenoid::Value::kReverse);
-        std::cout << Controller1.GetAButton() << std::endl;
-    }
-
 
 // turning & Driving function
     drive.ArcadeDrive(Yaxis, Xaxis, true);
