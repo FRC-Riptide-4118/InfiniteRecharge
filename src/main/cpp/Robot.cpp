@@ -49,7 +49,7 @@ void Robot::RobotInit() {
     srxML.Set(ControlMode::PercentOutput, 0);
     srxMR.Set(ControlMode::PercentOutput, 0);
 
-    FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
+  //  FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
 }
 
 void Robot::AutonomousInit() {}
@@ -67,7 +67,7 @@ void Robot::TeleopInit() {
 }
 void Robot::TeleopPeriodic() {
 
-    std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
+   // std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
 
 // Pneumatics control
    if (Controller1.GetAButtonPressed()) {
