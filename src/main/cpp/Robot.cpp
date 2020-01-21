@@ -88,18 +88,8 @@ void Robot::TeleopPeriodic() {
 
 //Shooter Control
 
-    if (Controller1.GetXButtonPressed()) {
+    FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
 
-        FX1.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-        FX2.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-
-    }
-
-    else if (Controller1.GetXButtonReleased()) {
-        FX1.Set(ControlMode::PercentOutput, 0);
-        FX2.Set(ControlMode::PercentOutput, 0);
-
-    }
 
     if (Controller1.GetStartButton()) {
         std::cout << "Sensor Left Velocity :" << srxFL.GetSelectedSensorVelocity() << std::endl;
