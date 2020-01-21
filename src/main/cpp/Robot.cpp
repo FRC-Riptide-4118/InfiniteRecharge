@@ -46,7 +46,6 @@ double Yaxis = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
 
 //Falcon 500 setup
 TalonFX FX1 = {6};
-TalonFX FX2 = {7};
 
 
 
@@ -55,7 +54,7 @@ void Robot::RobotInit() {
 
 //Initial speed of the motors
         drive.ArcadeDrive(0, 0, 0);
-
+//sensor setup
     FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
     srxFL.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
     srxFR.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
