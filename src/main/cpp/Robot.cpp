@@ -23,7 +23,7 @@
 
 frc::DoubleSolenoid dsole { 0, 0, 1};
 
-//Sets up controller and Motor subsystems
+//Sets up controller
 
 frc::XboxController Controller1{0};
 
