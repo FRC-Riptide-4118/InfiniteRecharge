@@ -17,6 +17,8 @@
 #include <frc/SpeedControllerGroup.h>
 
 
+
+
 //Piston Fire-Solenoid setup    
 
 frc::DoubleSolenoid dsole { 0, 0, 1};
@@ -37,40 +39,50 @@ WPI_TalonSRX srxMR = {5};
 
  frc::DifferentialDrive drive(left, right);
 
+ //double variable for defining a turning & driving # between -1 to 1 based on the axis of the right hand joystick
+
+double Xaxis = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
+double Yaxis = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
+
 //Falcon 500 setup
 TalonFX FX1 = {6};
 TalonFX FX2 = {7};
 
 
+
 void Robot::RobotInit() {
 
-    srxFL.Set(ControlMode::PercentOutput, 0);
-    srxFR.Set(ControlMode::PercentOutput, 0);
-    srxML.Set(ControlMode::PercentOutput, 0);
-    srxMR.Set(ControlMode::PercentOutput, 0);
+
+//Initial speed of the motors
+        drive.ArcadeDrive(0, 0, 0);
 
   //  FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
 }
 
-void Robot::AutonomousInit() {}
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousInit() {
+
+}
+void Robot::AutonomousPeriodic() {
+    dsole.Set(frc::DoubleSolenoid::Value::kForward);
+}
 
 void Robot::TeleopInit() {
-//Intial speed set of the motors
-    // srxFL.Set(ControlMode::PercentOutput, 0);
-    // srxFR.Set(ControlMode::PercentOutput, 0);
-    // srxML.Set(ControlMode::PercentOutput, 0);
-    // srxMR.Set(ControlMode::PercentOutput, 0);
+//when teleop Intialy starts sets speed of all the motors
+    drive.ArcadeDrive(0, 0, 0);
 
     FX1.Set(ControlMode::PercentOutput, 0);
-    FX2.Set(ControlMode::PercentOutput, 0);
+
 }
 void Robot::TeleopPeriodic() {
 
    // std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
 
+    if (Controller1.GetStickButtonPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
+        dsole.Set(frc::DoubleSolenoid::Value::kReverse);
+    }
+
 // Pneumatics control
-   if (Controller1.GetAButtonPressed()) {
+    if (Controller1.GetAButtonPressed()) {
         dsole.Set(frc::DoubleSolenoid::Value::kForward);
         std::cout << Controller1.GetAButton() << std::endl;
     }
@@ -80,19 +92,9 @@ void Robot::TeleopPeriodic() {
         std::cout << Controller1.GetAButton() << std::endl;
     }
 
-// Motor control
 
-
-    drive.ArcadeDrive(0.6, 0, true);
-
-
-    // left.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
-    // right.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand));
-
-    //   srxFL.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-    //   srxFR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-    //   srxML.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
-    //   srxMR.Set(ControlMode::PercentOutput, Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand));
+// turning & Driving function
+    drive.ArcadeDrive(Yaxis, Xaxis, true);
 
 //Shooter Control
 
@@ -107,6 +109,12 @@ void Robot::TeleopPeriodic() {
         FX1.Set(ControlMode::PercentOutput, 0);
         FX2.Set(ControlMode::PercentOutput, 0);
 
+    }
+
+    if (Controller1.GetStartButton()) {
+        std::cout << "Sensor Left Velocity :" << srxFL.GetSelectedSensorVelocity() << std::endl;
+        std::cout << "Sensor Left Position: " << srxFL.GetSelectedSensorPosition() << std::endl;
+        std::cout << "Left Output %: " << srxFL.GetMotorOutputPercent() << std::endl;
     }
 }
 
