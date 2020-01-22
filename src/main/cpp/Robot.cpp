@@ -31,11 +31,15 @@ frc::XboxController Controller1{0};
 
 WPI_TalonSRX srxFL = {1};
 WPI_TalonSRX srxML = {2};
+//for 2019 robot
+WPI_TalonSRX srxBL = {3};
 WPI_TalonSRX srxFR = {4};
 WPI_TalonSRX srxMR = {5};
+//for 2019 robot
+WPI_TalonSRX srxBR = {6};
 
- frc::SpeedControllerGroup left(srxFL, srxML);
- frc::SpeedControllerGroup right(srxFR, srxMR);
+ frc::SpeedControllerGroup left(srxFL, srxML, srxBL);
+ frc::SpeedControllerGroup right(srxFR, srxMR, srxBR);
 
  frc::DifferentialDrive drive(left, right);
 
