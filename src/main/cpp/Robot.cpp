@@ -75,7 +75,7 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-//when teleop Intialy starts sets speed of all the motors
+//when teleop Initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
 
     FX1.Set(ControlMode::PercentOutput, 0);
