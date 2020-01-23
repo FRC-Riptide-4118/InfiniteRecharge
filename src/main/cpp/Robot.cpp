@@ -87,9 +87,17 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
 
-    if (Controller1.GetYButtonPressed()) { Blocker.Set(0.5); }
+    if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
 
-    else if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) { Blocker.Set(0); }
+        DsoleDTrain.Set(frc::DoubleSolenoid::Value::kForward);
+
+    } 
+    
+    else if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) {
+
+        DsoleDTrain.Set(frc::DoubleSolenoid::Value::kReverse);
+
+    }
 
     double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
     double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
