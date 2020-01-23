@@ -29,11 +29,13 @@ frc::XboxController Controller1{0};
 
 //Basic Motor Control bases
 
+//Left speed group
 WPI_TalonSRX srxFL = {1};
 WPI_TalonSRX srxML = {2};
 //for 2019 robot
 WPI_TalonSRX srxBL = {3};
 
+//Right speed group
 WPI_TalonSRX srxFR = {4};
 WPI_TalonSRX srxMR = {5};
 //for 2019 robot
