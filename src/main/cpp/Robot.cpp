@@ -88,9 +88,7 @@ void Robot::TeleopPeriodic() {
 
     std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
 
-    if (Controller1.GetStickButtonPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
-        dsole.Set(frc::DoubleSolenoid::Value::kReverse);
-    }
+    else if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) { Blocker.Set(0); }
 
     double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
     double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
