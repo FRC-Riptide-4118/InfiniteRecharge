@@ -75,7 +75,7 @@ void Robot::AutonomousInit() {
 
 }
 void Robot::AutonomousPeriodic() {
-    dsole.Set(frc::DoubleSolenoid::Value::kForward);
+
 }
 
 void Robot::TeleopInit() {
