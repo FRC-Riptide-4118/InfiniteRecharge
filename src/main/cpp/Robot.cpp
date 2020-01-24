@@ -96,8 +96,7 @@ void Robot::TeleopPeriodic() {
     double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
     drive.ArcadeDrive(Drive, Turn, true);
 
-// turning & Driving function
-    drive.ArcadeDrive(Yaxis, Xaxis, true);
+    FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
 
 //Shooter Control
 
