@@ -81,10 +81,9 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
 //when teleop Initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
-
     FX1.Set(ControlMode::PercentOutput, 0);
-
 }
+
 void Robot::TeleopPeriodic() {
 
     std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
@@ -100,6 +99,8 @@ void Robot::TeleopPeriodic() {
 //Shooter Control
 
     FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
+
+
 
 
     if (Controller1.GetStartButton()) {
