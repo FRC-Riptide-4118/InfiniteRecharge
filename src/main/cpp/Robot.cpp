@@ -44,6 +44,8 @@ WPI_TalonSRX srxMR = {5};
 //for 2019 robot
 WPI_TalonSRX srxBR = {6};
 
+frc::Servo Blocker {0};
+
  frc::SpeedControllerGroup left(srxFL, srxML, srxBL);
  frc::SpeedControllerGroup right(srxFR, srxMR, srxBR);
 
