@@ -104,6 +104,8 @@ void Robot::TeleopPeriodic() {
 
     // turning & Driving function
 
+    //Shooter Control
+    if (Controller1.GetAButtonPressed()) { Dsole.Set(frc::DoubleSolenoid::Value::kForward); }
 
 
     if (Controller1.GetStartButton()) {
