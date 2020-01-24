@@ -24,7 +24,7 @@
 
 //Piston Fire-Solenoid setup    
 
-frc::DoubleSolenoid dsole { 0, 0, 1};
+frc::DoubleSolenoid Dsole { 0, 0, 1};
 
 //Sets up controller
 
