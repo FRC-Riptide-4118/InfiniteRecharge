@@ -98,7 +98,7 @@ void Robot::TeleopPeriodic() {
 
     FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
 
-//Shooter Control
+    //std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
 
     FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
 
