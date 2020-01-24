@@ -86,7 +86,7 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
 
-    std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
+    if (Controller1.GetYButtonPressed()) { Blocker.Set(0.5); }
 
     else if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) { Blocker.Set(0); }
 
