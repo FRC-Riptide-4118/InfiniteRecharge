@@ -100,7 +100,7 @@ void Robot::TeleopPeriodic() {
 
     //std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
 
-    FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
+    if (Controller1.GetStickButtonPressed(frc::GenericHID::JoystickHand::kLeftHand)) { Dsole.Set(frc::DoubleSolenoid::Value::kReverse); }
 
 
 
