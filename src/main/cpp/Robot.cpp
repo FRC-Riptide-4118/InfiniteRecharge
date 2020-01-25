@@ -136,7 +136,7 @@ void Robot::TeleopPeriodic() {
 
     FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
 
-    if (Controller1.GetStartButton()) {
+    //std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
 
         std::cout << "Sensor Left Velocity: " << srxFL.GetSelectedSensorVelocity() << std::endl;
         std::cout << "Sensor Left Position: " << srxFL.GetSelectedSensorPosition() << std::endl;
