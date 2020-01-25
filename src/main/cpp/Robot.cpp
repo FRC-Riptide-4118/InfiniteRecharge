@@ -22,6 +22,9 @@
 
 
 
+//Hal Effect sensor setuo
+
+frc::DigitalInput HEman {0};
 
 //Piston Fire-Solenoid setup    
 
