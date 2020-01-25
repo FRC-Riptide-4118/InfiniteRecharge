@@ -99,9 +99,7 @@ void Robot::TeleopPeriodic() {
     std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
 
 
-        DsoleDTrain.Set(frc::DoubleSolenoid::Value::kReverse);
-
-    }
+    std::cout << HEman.Get();
 
     double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
     double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
