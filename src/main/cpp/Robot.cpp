@@ -17,6 +17,9 @@
 #include <frc/SpeedControllerGroup.h>
 #include <frc/DigitalInput.h>
 #include <frc/Servo.h>
+#include "Constants.h"
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableInstance.h"
 
 
 
