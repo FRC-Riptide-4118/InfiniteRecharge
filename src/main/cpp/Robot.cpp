@@ -130,6 +130,16 @@ void Robot::TeleopPeriodic() {
         
     }
 
+    else if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) { 
+
+        DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
+        
+        }
+
+    double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
+    double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    drive.ArcadeDrive(Drive, Turn, true);
+
     FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
 
     if (Controller1.GetStartButton()) {
