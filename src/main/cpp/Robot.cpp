@@ -98,11 +98,6 @@ void Robot::TeleopPeriodic() {
     std::cout << "Left Sensor Velocity: " << srxBL.GetSelectedSensorVelocity() << std::endl;
     std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
 
-        DsoleDTrain.Set(frc::DoubleSolenoid::Value::kForward);
-
-    } 
-    
-    else if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) {
 
         DsoleDTrain.Set(frc::DoubleSolenoid::Value::kReverse);
 
