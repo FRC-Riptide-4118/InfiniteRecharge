@@ -123,10 +123,9 @@ void Robot::TeleopPeriodic() {
 
     // turning & Driving function
 
-    //Shooter Control
-    if (Controller1.GetAButtonPressed()) { 
+    if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand)) { 
         
-        Dsole.Set(frc::DoubleSolenoid::Value::kForward); 
+        DsoleDTrain.Set(frc::DoubleSolenoid::kForward);
         
     }
 
