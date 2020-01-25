@@ -87,6 +87,10 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
+    DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
+
+    Blocker.Set(0);
+    
 //when teleop Initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
     FX1.Set(ControlMode::PercentOutput, 0);
