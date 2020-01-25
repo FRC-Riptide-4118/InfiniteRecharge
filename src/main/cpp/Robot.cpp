@@ -28,8 +28,8 @@ frc::DigitalInput HEman {0};
 
 //Piston Fire-Solenoid setup    
 
-frc::DoubleSolenoid Dsole { 0, 0, 1};
-frc::DoubleSolenoid DsoleDTrain {1, 0, 1};
+frc::DoubleSolenoid Dsole { 1, 0, 1};
+frc::DoubleSolenoid DsoleDTrain {0, 0, 1};
 
 //Sets up controller
 
