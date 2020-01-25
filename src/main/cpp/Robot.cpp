@@ -101,18 +101,16 @@ void Robot::TeleopPeriodic() {
 
     std::cout << HEman.Get();
 
-    double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
-    double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    if (HEman.Get()) {
 
-    drive.ArcadeDrive(Drive, Turn, true);
+        Blocker.Set(1);
 
-    FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
+    }
 
-    //std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
+    else {
 
-    if (Controller1.GetStickButtonPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
+        Blocker.Set(0);
 
-        Dsole.Set(frc::DoubleSolenoid::Value::kReverse); 
     }
 
     // turning & Driving function
