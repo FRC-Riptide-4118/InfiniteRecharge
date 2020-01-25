@@ -21,11 +21,17 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
 
+// //Victor Sp setup for R2-Dan2
+WPI_VictorSPX spxFL = {0};
+WPI_VictorSPX spxML = {1};
+WPI_VictorSPX spxBL = {2};
 
+// //Right setup
 
-
-
-//Hal Effect sensor setuo
+WPI_VictorSPX spxFR = {3};
+WPI_VictorSPX spxMR = {4};
+WPI_VictorSPX spxBR = {5};
+// //Hal Effect sensor setuo
 
 frc::DigitalInput HEman {0};
 
