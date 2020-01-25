@@ -142,7 +142,10 @@ void Robot::TeleopPeriodic() {
         std::cout << "Sensor Right Position: " << srxFR.GetSelectedSensorPosition() << std::endl;
         std::cout << "Right Output %: " << srxFR.GetMotorOutputPercent() << std::endl;
 
-    }
+    //Shooter Control
+    if (Controller1.GetAButtonPressed()) { Dsole.Set(frc::DoubleSolenoid::Value::kForward); }
+
+    FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
 
     // if (Controller1.GetStartButton()) {
     //     std::cout << "Sensor Left Velocity: " << srxFL.GetSelectedSensorVelocity() << std::endl;
