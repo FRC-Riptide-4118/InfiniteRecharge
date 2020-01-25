@@ -52,15 +52,11 @@ frc::XboxController Controller1{0};
 // //for 2019 robot
 // WPI_TalonSRX srxBL = {3};
 
-//Right speed group
-WPI_TalonSRX srxFR = {4};
-WPI_TalonSRX srxMR = {5};
-//for 2019 robot
-WPI_TalonSRX srxBR = {6};
-
-PigeonIMU PigIMU1 = {srxMR};
-
-int _LoopCount = 0;
+// //Right speed group
+// WPI_TalonSRX srxFR = {4};
+// WPI_TalonSRX srxMR = {5};
+// //for 2019 robot
+// WPI_TalonSRX srxBR = {6};
 
 frc::Servo Blocker {0};
 
