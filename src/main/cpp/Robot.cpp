@@ -113,6 +113,22 @@ std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().Get
 
 void Robot::RobotInit() {
 
+    FX1.ConfigFactoryDefault();
+
+    //Sets the peak  and nominal outputs, 12v   
+
+    FX1.ConfigNominalOutputForward(0);
+    FX1.ConfigNominalOutputReverse(0);
+    FX1.ConfigPeakOutputForward(1);
+    FX1.ConfigPeakOutputReverse(-1);
+
+    //Set closed loop gains in slot 0
+
+    FX1.Config_kF(kPIDLoopIdx, 0.0);
+    FX1.Config_kP(kPIDLoopIdx, 0.0);
+    FX1.Config_kI(kPIDLoopIdx, 0.0);
+    FX1.Config_kD(kPIDLoopIdx, 0.0);
+
 
 //Initial speed of the motors
         drive.ArcadeDrive(0, 0, 0);
