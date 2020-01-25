@@ -113,7 +113,6 @@ void Robot::TeleopPeriodic() {
 
     }
 
-    // turning & Driving function
 
     if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand)) { 
         
