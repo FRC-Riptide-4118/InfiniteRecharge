@@ -136,6 +136,12 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
+
+
+    // double RTriggerAxis = Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
+    // double MotorOutput = FX1.GetMotorOutputPercent();
+
+
     DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
 
     Blocker.Set(0);
