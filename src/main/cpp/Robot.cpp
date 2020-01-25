@@ -69,7 +69,46 @@ frc::Servo Blocker {0};
 //Falcon 500 setup & Vision tracking
 TalonFX FX1 = {6};
 
+std::string _sb;
+int _loops = 0;
 
+
+/*
+This is the mapping of all buttons on the controller:
+
+    -Left Bumper
+        - Unassigned
+    -Right Bumper
+        - Unassigned
+    -Left Joystick
+        - The Y axis of the computer for driving
+    -Right Joystick
+        - The X axis of the computer for driving/turning
+    -Right Trigger
+        - Turning on the Falcon 500
+    -Left Trigger
+        - Unassigned
+    -X Button
+        - in working
+    -A Button
+        - Unassigned
+    -B Button 
+        - High gear shifting
+    -Y Button
+        - Low gear shifting
+    -Left Joystick Button
+        -
+    -Right Joystick Button
+        - 
+    -Start Button
+        - 
+    -Back Button
+        -
+
+*/
+
+
+std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
 
 void Robot::RobotInit() {
