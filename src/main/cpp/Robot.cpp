@@ -66,7 +66,7 @@ frc::Servo Blocker {0};
  frc::DifferentialDrive drive(left, right);
 
 
-//Falcon 500 setup
+//Falcon 500 setup & Vision tracking
 TalonFX FX1 = {6};
 
 
