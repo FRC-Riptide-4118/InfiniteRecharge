@@ -74,13 +74,14 @@ void Robot::RobotInit() {
 
      Blocker.Set(0);
 
-    
 }
 
 void Robot::AutonomousInit() {
+
     Dsole.Set(frc::DoubleSolenoid::Value::kForward);
 
 }
+
 void Robot::AutonomousPeriodic() {
 
 }
@@ -89,6 +90,7 @@ void Robot::TeleopInit() {
 //when teleop Initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
     FX1.Set(ControlMode::PercentOutput, 0);
+
 }
 
 void Robot::TeleopPeriodic() {
@@ -117,7 +119,6 @@ void Robot::TeleopPeriodic() {
     if (Controller1.GetStickButtonPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
 
         Dsole.Set(frc::DoubleSolenoid::Value::kReverse); 
-    
     }
 
     // turning & Driving function
