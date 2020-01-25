@@ -60,8 +60,8 @@ frc::XboxController Controller1{0};
 
 frc::Servo Blocker {0};
 
- frc::SpeedControllerGroup left(srxFL, srxML, srxBL);
- frc::SpeedControllerGroup right(srxFR, srxMR, srxBR);
+ frc::SpeedControllerGroup left(spxFL, spxML, spxBL);
+ frc::SpeedControllerGroup right(spxFR, spxMR, spxBR);
 
  frc::DifferentialDrive drive(left, right);
 
