@@ -9,6 +9,7 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
 #include "Interactions.h"
+#include "CompBot/Intake/Pneumatic_Intake.h"
 
 class Robot : public frc::TimedRobot {
  private:
