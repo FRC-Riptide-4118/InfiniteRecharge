@@ -193,9 +193,6 @@ void Robot::TeleopPeriodic() {
 
     drive.ArcadeDrive(Drive, Turn, true);
 
-    //Flywheel motor
-    // FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand));
-}
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
 
