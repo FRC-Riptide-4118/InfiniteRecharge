@@ -18,4 +18,5 @@ class Interactions {
     bool enterPIDFXClosedLoop();
     double shooterRawSpeed();
     bool toggleLimeLightCamera();
+    bool deployPneumatic_Intake();
 };
