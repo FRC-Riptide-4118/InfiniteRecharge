@@ -278,7 +278,8 @@ void Robot::TeleopPeriodic() {
     //Shooter Control
     if (Controller1.GetAButtonPressed()) { Dsole.Set(frc::DoubleSolenoid::Value::kForward); }
 
-    FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
+    //Flywheel motor
+    // FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand));
 
 }
 void Robot::TestInit() {}
