@@ -151,7 +151,7 @@ void Robot::TeleopPeriodic() {
 		_sb.clear();
 
     std::cout << "Left Sensor Velocity: " << srx_Left_Back.GetSelectedSensorVelocity() << std::endl;
-//    std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
+//  std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
 
     toggleCameraMode();
 
