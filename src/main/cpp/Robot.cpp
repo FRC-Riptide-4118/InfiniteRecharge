@@ -169,10 +169,6 @@ void Robot::TeleopPeriodic() {
     std::cout << "Left Sensor Velocity: " << spxBL.GetSelectedSensorVelocity() << std::endl;
     std::cout << "Right Sensor Velocity: " << spxBR.GetSelectedSensorVelocity() << std::endl;
 
-    while (Controller1.GetAButton()) {
-        rotateToTarget();
-
-    }
     toggle();
 
     if (Controller1->GetBButtonPressed()) { 
