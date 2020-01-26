@@ -170,14 +170,12 @@ void Robot::TeleopInit() {
 
 void toggle() {
 
-    if (_LoopCount++ > 10) {
+    if (Controller1.GetXButtonPressed()) {
 
-        _LoopCount = 0;
-        PigIMU1.GetYawPitchRoll(double ypr);
-        std::cout << "Pidgeon Yaw is:" << ypr << std::endl;
+        table->PutNumber("camMode", !table->GetNumber("camMode", 0));
+        table->PutNumber("ledMode", !table->GetNumber("ledMode", 0));
 
     }
-        std::cout << "Pidgeon Yaw is: " << ypr[0] << std::endl;
 
     std::cout << "Left Sensor Velocity: " << srxBL.GetSelectedSensorVelocity() << std::endl;
     std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
