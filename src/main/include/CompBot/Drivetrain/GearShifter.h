@@ -8,6 +8,6 @@ class GearShifter {
       frc::DoubleSolenoid *shifter;
   public:  
       GearShifter();
-      bool ishighgear();
-      void shiftgear();
+      bool IsHighGear();
+      void ShiftGear();
 };
