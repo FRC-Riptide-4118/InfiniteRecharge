@@ -132,11 +132,6 @@ void toggle() {
 
 }
 
-void rotateToTarget() {
-    double tx = table->GetNumber("tx", 0.0);
-    double output = LimelightConstants::kP*tx;
-    drive.ArcadeDrive(0.0, output);
-}
 void Robot::TeleopPeriodic() {
 //     // Get trigger axis and assigns x button as a bool value
 //     double RTriggerAxis = Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
