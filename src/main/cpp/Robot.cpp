@@ -49,10 +49,6 @@ WPI_TalonSRX srxMR = {5};
 //for 2019 robot
 WPI_TalonSRX srxBR = {6};
 
-PigeonIMU PigIMU1 = {srxMR};
-
-int _LoopCount = 0;
-
 frc::Servo Blocker {0};
 
  frc::SpeedControllerGroup left(srxFL, srxML, srxBL);
