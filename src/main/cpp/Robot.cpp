@@ -90,10 +90,10 @@ void Robot::RobotInit() {
 
     //Set closed loop gains in slot 0
 
-    FX1.Config_kF(kPIDLoopIdx, 0.0);
-    FX1.Config_kP(kPIDLoopIdx, 0.0);
-    FX1.Config_kI(kPIDLoopIdx, 0.0);
-    FX1.Config_kD(kPIDLoopIdx, 0.0);
+    FX1->Config_kF(kPIDLoopIdx, 0.0, kTimeoutMs);
+    FX1->Config_kP(kPIDLoopIdx, 0.0, kTimeoutMs);
+    FX1->Config_kI(kPIDLoopIdx, 0.0, kTimeoutMs);
+    FX1->Config_kD(kPIDLoopIdx, 0.0, kTimeoutMs);
 
 
 //Initial speed of the motors
