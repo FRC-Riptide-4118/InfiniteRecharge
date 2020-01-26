@@ -269,14 +269,15 @@ void Robot::TeleopPeriodic() {
 
     FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
 
-    //std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
+    //Driving/Turning of the robot
 
-    if (Controller1.GetStickButtonPressed(frc::GenericHID::JoystickHand::kLeftHand)) { Dsole.Set(frc::DoubleSolenoid::Value::kReverse); }
+    //Turns the .GetX into a double value where Arcadedrive can understand it
+    double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
 
-    // turning & Driving function
+    //Turns the .GetY into a double value where Arcadedrive can understand it
+    double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
 
-    //Shooter Control
-    if (Controller1.GetAButtonPressed()) { Dsole.Set(frc::DoubleSolenoid::Value::kForward); }
+    drive.ArcadeDrive(Drive, Turn, true);
 
     //Flywheel motor
     // FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand));
