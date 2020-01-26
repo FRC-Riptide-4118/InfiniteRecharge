@@ -262,12 +262,7 @@ void Robot::TeleopPeriodic() {
 
         DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
         
-        }
-    double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
-    double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    drive.ArcadeDrive(Drive, Turn, true);
-
-    FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
+}
 
     //Driving/Turning of the robot
 
