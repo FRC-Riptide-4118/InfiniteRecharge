@@ -168,7 +168,7 @@ void Robot::TeleopInit() {
 
 }
 
-void Robot::TeleopPeriodic() {
+void toggle() {
 
     if (_LoopCount++ > 10) {
 
