@@ -8,8 +8,8 @@
 #include <iostream>
 #include "Robot.h"
 #include "Interactions.h"
-#include "Subsystems/Drivetrain/GearShifter.h"
-#include "Subsystems/Drivetrain/GearBoxMotors.h"
+#include "CompBot/Drivetrain/GearShifter.h"
+#include "CompBot/Drivetrain/GearBoxMotors.h"
 #include "Constants.h"
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>

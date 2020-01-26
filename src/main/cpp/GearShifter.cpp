@@ -1,6 +1,6 @@
 #include <frc/DoubleSolenoid.h>
 #include <iostream>
-#include "Subsystems/Drivetrain/GearShifter.h"
+#include "CompBot/Drivetrain/GearShifter.h"
 
 
 GearShifter::GearShifter() {
