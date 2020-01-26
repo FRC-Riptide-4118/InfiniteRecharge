@@ -10,7 +10,6 @@ Interactions::Interactions( frc::XboxController *icontroller1, frc::XboxControll
     controller2 = icontroller2;
 }
 
-
 double Interactions::getTurn() {
     return controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
 }
