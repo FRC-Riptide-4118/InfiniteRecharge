@@ -157,6 +157,7 @@ void Robot::TeleopPeriodic() {
 
     if ( interaction->getShiftGear() ) {
         shifter->shiftGear();
+        shifter->shiftgear();
     }
 
     //Driving/Turning of the robot

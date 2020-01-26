@@ -2,11 +2,11 @@
 #include <iostream>
 #include "Subsystems/Drivetrain/GearShifter.h"
 
-bool GearShifter::isHighGear() {
+bool GearShifter::ishighgear() {
     return high_gear;
 }
 
-void GearShifter::shiftGear() {
+void GearShifter::shiftgear() {
     if (high_gear) { 
         shifter->Set(frc::DoubleSolenoid::kForward);
     } else { 
