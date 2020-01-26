@@ -34,7 +34,7 @@ WPI_VictorSPX spxFL = {0};
 WPI_VictorSPX spxML = {1};
 WPI_VictorSPX spxBL = {2};
 
-// //Right setup
+//Right setup
 
 WPI_VictorSPX spxFR = {3};
 WPI_VictorSPX spxMR = {4};
