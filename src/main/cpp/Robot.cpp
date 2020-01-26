@@ -160,11 +160,7 @@ void Robot::TeleopPeriodic() {
     }
 
     //Driving/Turning of the robot
-
-    //Turns the .GetX into a double value where Arcadedrive can understand it
     double Turn = interaction->getTurn();
-
-    //Turns the .GetY into a double value where Arcadedrive can understand it
     double Drive = interaction->getDrive();
 
     drive.ArcadeDrive(Drive, Turn, true);
