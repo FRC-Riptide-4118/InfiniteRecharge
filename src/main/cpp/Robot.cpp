@@ -74,8 +74,6 @@ This is the mapping of all buttons on the controller:
         -
 
 */
-
-
 std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
 
@@ -104,7 +102,6 @@ void Robot::RobotInit() {
     //  FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
     //  spxBR.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     //  spxBL.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
-
      Blocker.Set(0);
 
 }
@@ -112,7 +109,6 @@ void Robot::RobotInit() {
 void Robot::AutonomousInit() {
 
     Dsole.Set(frc::DoubleSolenoid::Value::kForward);
-
 }
 
 void Robot::AutonomousPeriodic() {
@@ -120,14 +116,9 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-
-
     // double RTriggerAxis = Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
     // double MotorOutput = FX1.GetMotorOutputPercent();
-
-
     DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
-
     Blocker.Set(0);
     
 //when teleop Initialy starts sets speed of all the motors
@@ -147,27 +138,21 @@ void toggle() {
 
 }
 
-
 void rotateToTarget() {
-
     double tx = table->GetNumber("tx", 0.0);
     double output = LimelightConstants::kP*tx;
     drive.ArcadeDrive(0.0, output);
-
 }
-
 void Robot::TeleopPeriodic() {
 //     // Get trigger axis and assigns x button as a bool value
 //     double RTriggerAxis = Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
 //     double MotorOutput = FX1.GetMotorOutputPercent();
 //     bool XBtn = Controller1.GetXButton();
-
 //     //prepares line to print
 //     _sb.append("\tout:");
 //     _sb.append(std::to_string(MotorOutput));
 //     _sb.append("\tcur:");
 //     _sb.append(std::to_string(FX1.GetOutputCurrent()));
-
 // //  on XBtn pressed enters the closed loop mode
 //     if (XBtn == 1) {
 //         //Position mode
@@ -175,7 +160,6 @@ void Robot::TeleopPeriodic() {
 //     } else {
 //         FX1.Set(ControlMode::PercentOutput, RTriggerAxis);
 //     }
-
 // //  If talon is in position closed loop print some more info
 //     if (FX1.GetControlMode() == ControlMode::Current) {
 //         // append more signals to print when in speed mode. 
@@ -199,28 +183,18 @@ void Robot::TeleopPeriodic() {
     std::cout << "Right Sensor Velocity: " << spxBR.GetSelectedSensorVelocity() << std::endl;
 
     while (Controller1.GetAButton()) {
-
         rotateToTarget();
 
     }
-
     toggle();
 
     std::cout << HEman.Get();
-
     if (HEman.Get()) {
-
         Blocker.Set(1);
-
 }
-
     else {
-
         Blocker.Set(0);
-
 }
-
-
     if (Controller1.GetBButtonPressed()) { 
         
         DsoleDTrain.Set(frc::DoubleSolenoid::kForward);
@@ -245,7 +219,6 @@ void Robot::TeleopPeriodic() {
 
     //Flywheel motor
     // FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand));
-
 }
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
