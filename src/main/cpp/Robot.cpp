@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "Robot.h"
+#include "Interactions.h"
 #include "Subsystems/Drivetrain/Pneumatics.h"
 #include "Subsystems/Drivetrain/Motors.h"
 #include "Constants.h"
@@ -21,25 +22,10 @@
 #include "networktables/NetworkTableInstance.h"
 
 
-frc::SpeedControllerGroup left(srxFL, srxML, srxBL);
-frc::SpeedControllerGroup right(srxFR, srxMR, srxBR);
+frc::SpeedControllerGroup left(srx_Left_Front, srx_Left_Middle, srx_Left_Back);
+frc::SpeedControllerGroup right(srx_Right_Front, srx_Right_Middle, srx_Right_Back);
 
 frc::DifferentialDrive drive(left, right);
-
-frc::XboxController * Controller1 = new frc::XboxController(0);
-
-
-//Victor Sp setup for R2-Dan2
-WPI_VictorSPX spxFL = {0};
-WPI_VictorSPX spxML = {1};
-WPI_VictorSPX spxBL = {2};
-
-//Right setup
-
-WPI_VictorSPX spxFR = {3};
-WPI_VictorSPX spxMR = {4};
-WPI_VictorSPX spxBR = {5};
-
 
 /*
 This is the mapping of all buttons on the controller:
@@ -57,7 +43,7 @@ This is the mapping of all buttons on the controller:
     -Left Trigger
         - Unassigned
     -X Button
-        - in working
+        - Enters closed loop target positioning
     -A Button
         - Unassigned
     -B Button 
@@ -65,26 +51,31 @@ This is the mapping of all buttons on the controller:
     -Y Button
         - Low gear shifting
     -Left Joystick Button
-        -
+        - Unassigned
     -Right Joystick Button
-        - 
+        - Unassigned
     -Start Button
-        - 
+        - Unassigned
     -Back Button
-        -
+        -unassigned
 
 */
 std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
 
 void Robot::RobotInit() {
+    FX1 = new TalonFX(0);
+    Controller1 = new frc::XboxController(0);
+    Controller2 = new frc::XboxController(1);
+    interaction = new Interactions( Controller1, Controller2 );
+    shifter_highgear = false;
 
     FX1->ConfigFactoryDefault();
 
     //Sets the peak  and nominal outputs, 12v   
 
-    FX1->ConfigNominalOutputForward(0, kTimeoutMs);
-    FX1->ConfigNominalOutputReverse(0, kTimeoutMs);
+    FX1->ConfigNominalOutputForward(1, kTimeoutMs);
+    FX1->ConfigNominalOutputReverse(-1, kTimeoutMs);
     FX1->ConfigPeakOutputForward(1, kTimeoutMs);
     FX1->ConfigPeakOutputReverse(-1, kTimeoutMs);
 
@@ -100,8 +91,8 @@ void Robot::RobotInit() {
         drive.ArcadeDrive(0, 0, 0);
 //sensor setup
      FX1->ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
-     srxBR.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
-     srxBL.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+     srx_Right_Back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+     srx_Left_Back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
 
 }
 
@@ -116,14 +107,14 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
     
 //when teleop Initialy starts sets speed of all the motors
-    drive.ArcadeDrive(0, 0, 0);
+    drive.ArcadeDrive(0, 0);
     FX1->Set(ControlMode::PercentOutput, 0);
 
 }
 
-void toggle() {
+void Robot::toggle() {
 
-    if (Controller1->GetXButtonPressed()) {
+    if (Controller1->GetAButtonPressed()) {
 
         table->PutNumber("camMode", !table->GetNumber("camMode", 0));
         table->PutNumber("ledMode", !table->GetNumber("ledMode", 0));
@@ -132,23 +123,24 @@ void toggle() {
 
 }
 
+
 void Robot::TeleopPeriodic() {
     // get gamepad axis
-    double RTriggerAxis = Controller1->GetY();
-    double motorOutput = FX1->GetMotorOutPut9();
-    bool XBtn = Controller1->GetXButtonPressed();
+    const double AMPS_CHANGE_DIRECTION = 20;    
+    double motorOutput = FX1->GetOutputCurrent();
+    std::string _sb;
 
     /* prepare line to print */
 		_sb.append("\tout:");
 		_sb.append(std::to_string(motorOutput));
 		_sb.append("\tcur:");
-		_sb.append(std::to_string(_talon->GetOutputCurrent()));
+		_sb.append(std::to_string(FX1->GetOutputCurrent()));
 		/* on button1 press enter closed-loop mode on target position */
-		if (XBtn) {
+		if (interaction->enterPIDFXClosedLoop()) {
 			/* Position mode - button just pressed */
-			FX1->Set(ControlMode::Current, RTriggerAxis * 40); /* 40 Amps in either direction */
+			FX1->Set(ControlMode::Current, interaction->shooterRawSpeed() * AMPS_CHANGE_DIRECTION); /* 40 Amps in either direction */
 		} else {
-			FX1->Set(ControlMode::PercentOutput, RTriggerAxis);
+			FX1->Set(ControlMode::PercentOutput, interaction->shooterRawSpeed());
 		}
 		/* if Talon is in position closed-loop, print some more info */
 		if (FX1->GetControlMode() == ControlMode::Current) {
@@ -156,7 +148,7 @@ void Robot::TeleopPeriodic() {
 			_sb.append("\terrNative:");
 			_sb.append(std::to_string(FX1->GetClosedLoopError(kPIDLoopIdx)));
 			_sb.append("\ttrg:");
-			_sb.append(std::to_string(RTriggerAxis * 40));
+			_sb.append(std::to_string(interaction->shooterRawSpeed() * AMPS_CHANGE_DIRECTION));
 		}
 		/* print every ten loops, printing too much too fast is generally bad for performance */
 		if (++_loops >= 10) {
@@ -164,34 +156,33 @@ void Robot::TeleopPeriodic() {
 			printf("%s\n", _sb.c_str());
 		}
 		_sb.clear();
-	}
 
-    std::cout << "Left Sensor Velocity: " << spxBL.GetSelectedSensorVelocity() << std::endl;
-    std::cout << "Right Sensor Velocity: " << spxBR.GetSelectedSensorVelocity() << std::endl;
+    std::cout << "Left Sensor Velocity: " << srx_Left_Back.GetSelectedSensorVelocity() << std::endl;
+//    std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
 
     toggle();
 
-    if (Controller1->GetBButtonPressed()) { 
-        
+    if ( interaction->getShiftGear() ) {
+        shifter_highgear = !shifter_highgear;
+    }
+
+    if (shifter_highgear) { 
         Shifter.Set(frc::DoubleSolenoid::kForward);
-        
-}
-
-    else if (Controller1->GetYButtonPressed()) { 
-
+    } else { 
         Shifter.Set(frc::DoubleSolenoid::kReverse);
-        
-}
+    }
 
     //Driving/Turning of the robot
 
     //Turns the .GetX into a double value where Arcadedrive can understand it
-    double Turn = Controller1->GetX(frc::GenericHID::JoystickHand::kRightHand);
+    double Turn = interaction->getTurn();
 
     //Turns the .GetY into a double value where Arcadedrive can understand it
-    double Drive = Controller1->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    double Drive = interaction->getDrive();
 
     drive.ArcadeDrive(Drive, Turn, true);
+
+}
 
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}

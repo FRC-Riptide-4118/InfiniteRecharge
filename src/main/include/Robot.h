@@ -7,14 +7,16 @@
 #include <frc/Servo.h>
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
+#include "Interactions.h"
 
 class Robot : public frc::TimedRobot {
  private:
-  TalonFX * FX1 = new TalonFX(0);
-  frc::XboxController * Controller1 = new frc::XboxController(0);
-
-  std::string _sb;
+  TalonFX * FX1;
+  frc::XboxController * Controller1;
+  frc::XboxController * Controller2;
+  Interactions *interaction;
   int _loops = 0;
+  bool shifter_highgear;
 
  public:
   void RobotInit() override;
@@ -27,4 +29,6 @@ class Robot : public frc::TimedRobot {
 
   void TestInit() override;
   void TestPeriodic() override;
+
+  void toggle();
 };

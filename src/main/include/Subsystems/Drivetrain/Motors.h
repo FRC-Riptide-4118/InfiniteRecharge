@@ -6,16 +6,22 @@
 //Basic Motor Control bases
 
 //Left speed group
-WPI_TalonSRX srxFL = {1};
-WPI_TalonSRX srxML = {2};
-WPI_TalonSRX srxBL = {3};
+WPI_TalonSRX srx_Left_Front = {0};
+WPI_TalonSRX srx_Left_Middle = {1};
+WPI_TalonSRX srx_Left_Back = {2};
 
 // //Right speed group
-WPI_TalonSRX srxFR = {4};
-WPI_TalonSRX srxMR = {5};
-WPI_TalonSRX srxBR = {6};
+WPI_TalonSRX srx_Right_Front = {3};
+WPI_TalonSRX srx_Right_Middle = {4};
+WPI_TalonSRX srx_Right_Back = {5};
 
- frc::SpeedControllerGroup left(srxFL, srxML, srxBL);
- frc::SpeedControllerGroup right(srxFR, srxMR, srxBR);
+//Victor Sp setup for R2-Dan2
+WPI_VictorSPX spx_Left_Front = {0};
+WPI_VictorSPX spx_Left_Middle = {1};
+WPI_VictorSPX spx_Left_Back = {2};
 
- frc::DifferentialDrive drive(left, right);
+//Right setup
+
+WPI_VictorSPX spx_Right_Front = {3};
+WPI_VictorSPX spx_Right_Middle = {4};
+WPI_VictorSPX spx_Right_Back = {5};
