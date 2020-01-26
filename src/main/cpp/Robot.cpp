@@ -263,7 +263,6 @@ void Robot::TeleopPeriodic() {
         DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
         
         }
-
     double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
     double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
     drive.ArcadeDrive(Drive, Turn, true);
@@ -290,7 +289,6 @@ void Robot::TeleopPeriodic() {
     //     std::cout << "Right Output %: " << srxFR.GetMotorOutputPercent() << std::endl;
     // }
 }
-
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
 
