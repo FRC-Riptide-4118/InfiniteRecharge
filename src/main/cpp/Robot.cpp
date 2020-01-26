@@ -20,7 +20,16 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
 
-// //Victor Sp setup for R2-Dan2
+
+frc::SpeedControllerGroup left(srxFL, srxML, srxBL);
+frc::SpeedControllerGroup right(srxFR, srxMR, srxBR);
+
+frc::DifferentialDrive drive(left, right);
+
+frc::XboxController * Controller1 = new frc::XboxController(0);
+
+
+//Victor Sp setup for R2-Dan2
 WPI_VictorSPX spxFL = {0};
 WPI_VictorSPX spxML = {1};
 WPI_VictorSPX spxBL = {2};
