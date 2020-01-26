@@ -83,10 +83,10 @@ void Robot::RobotInit() {
 
     //Sets the peak  and nominal outputs, 12v   
 
-    FX1.ConfigNominalOutputForward(0);
-    FX1.ConfigNominalOutputReverse(0);
-    FX1.ConfigPeakOutputForward(1);
-    FX1.ConfigPeakOutputReverse(-1);
+    FX1->ConfigNominalOutputForward(0, kTimeoutMs);
+    FX1->ConfigNominalOutputReverse(0, kTimeoutMs);
+    FX1->ConfigPeakOutputForward(1, kTimeoutMs);
+    FX1->ConfigPeakOutputReverse(-1, kTimeoutMs);
 
     //Set closed loop gains in slot 0
 
@@ -175,14 +175,7 @@ void Robot::TeleopPeriodic() {
     }
     toggle();
 
-    std::cout << HEman.Get();
-    if (HEman.Get()) {
-        Blocker.Set(1);
-}
-    else {
-        Blocker.Set(0);
-}
-    if (Controller1.GetBButtonPressed()) { 
+    if (Controller1->GetBButtonPressed()) { 
         
         DsoleDTrain.Set(frc::DoubleSolenoid::kForward);
         
@@ -197,10 +190,10 @@ void Robot::TeleopPeriodic() {
     //Driving/Turning of the robot
 
     //Turns the .GetX into a double value where Arcadedrive can understand it
-    double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
+    double Turn = Controller1->GetX(frc::GenericHID::JoystickHand::kRightHand);
 
     //Turns the .GetY into a double value where Arcadedrive can understand it
-    double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    double Drive = Controller1->GetY(frc::GenericHID::JoystickHand::kLeftHand);
 
     drive.ArcadeDrive(Drive, Turn, true);
 
