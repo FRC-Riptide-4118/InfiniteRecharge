@@ -2,6 +2,7 @@
 #include <frc/TimedRobot.h>
 #include "ctre/Phoenix.h"
 #include "Subsystems/Drivetrain/GearShifter.h"
+#include "Subsystems/Intake/Pneumatic_Intake.h"
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
 #include <frc/DigitalInput.h>
@@ -19,6 +20,7 @@ class Robot : public frc::TimedRobot {
   int _loops = 0;
   bool shifter_highgear;
   GearShifter *shifter;
+  Pneumatic_Intake *intakeDeploy;
 
  public:
   void RobotInit() override;
