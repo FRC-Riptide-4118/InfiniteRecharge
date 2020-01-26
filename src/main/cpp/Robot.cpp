@@ -117,13 +117,13 @@ void Robot::TeleopInit() {
     
 //when teleop Initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
-    FX1.Set(ControlMode::PercentOutput, 0);
+    FX1->Set(ControlMode::PercentOutput, 0);
 
 }
 
 void toggle() {
 
-    if (Controller1.GetXButtonPressed()) {
+    if (Controller1->GetXButtonPressed()) {
 
         table->PutNumber("camMode", !table->GetNumber("camMode", 0));
         table->PutNumber("ledMode", !table->GetNumber("ledMode", 0));
