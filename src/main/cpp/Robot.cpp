@@ -79,7 +79,7 @@ std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().Get
 
 void Robot::RobotInit() {
 
-    FX1.ConfigFactoryDefault();
+    FX1->ConfigFactoryDefault();
 
     //Sets the peak  and nominal outputs, 12v   
 
