@@ -1,8 +1,7 @@
 #pragma once
 #include <frc/TimedRobot.h>
 #include "ctre/Phoenix.h"
-#include "Subsystems/Drivetrain/GearShifter.h"
-#include "Subsystems/Intake/Pneumatic_Intake.h"
+#include "CompBot/Drivetrain/GearShifter.h"
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
 #include <frc/DigitalInput.h>
@@ -13,9 +12,9 @@
 
 class Robot : public frc::TimedRobot {
  private:
-  TalonFX * FX1;
-  frc::XboxController * Controller1;
-  frc::XboxController * Controller2;
+  TalonFX *FX1;
+  frc::XboxController *Controller1;
+  frc::XboxController *Controller2;
   Interactions *interaction;
   int _loops = 0;
   bool shifter_highgear;

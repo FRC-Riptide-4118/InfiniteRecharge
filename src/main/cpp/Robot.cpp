@@ -8,8 +8,8 @@
 #include <iostream>
 #include "Robot.h"
 #include "Interactions.h"
-#include "Subsystems/Drivetrain/GearShifter.h"
-#include "Subsystems/Drivetrain/GearBoxMotors.h"
+#include "CompBot/Drivetrain/GearShifter.h"
+#include "CompBot/Drivetrain/GearBoxMotors.h"
 #include "Constants.h"
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
@@ -20,39 +20,7 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
 
-/*
-This is the mapping of all buttons on the controller:
 
-    -Left Bumper
-        - Unassigned
-    -Right Bumper
-        - Unassigned
-    -Left Joystick
-        - The Y axis of the computer for driving
-    -Right Joystick
-        - The X axis of the computer for driving/turning
-    -Right Trigger
-        - Changing the value of the Falcon 500
-    -Left Trigger
-        - Unassigned
-    -X Button
-        - Enters closed loop target positioning
-    -A Button
-        - toggleCameraMode
-    -B Button 
-        - High/low gear shifting
-    -Y Button
-        - 
-    -Left Joystick Button
-        - Unassigned
-    -Right Joystick Button
-        - Unassigned
-    -Start Button
-        - Unassigned
-    -Back Button
-        -unassigned
-
-*/
  std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
 
@@ -85,8 +53,8 @@ void Robot::RobotInit() {
         drive.ArcadeDrive(0, 0, 0);
 //sensor setup
      FX1->ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
-     srx_Right_Back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
-     srx_Left_Back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+     srx_right_back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+     srx_left_back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
 
 }
 
@@ -151,8 +119,9 @@ void Robot::TeleopPeriodic() {
 		}
 		_sb.clear();
 
-    std::cout << "Left Sensor Velocity: " << srx_Left_Back.GetSelectedSensorVelocity() << std::endl;
-//  std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
+//   std::cout << "Left Sensor Velocity: " << srx_Left_Back.GetSelectedSensorVelocity() << std::endl;
+
+//   std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
 
     toggleCameraMode();
 

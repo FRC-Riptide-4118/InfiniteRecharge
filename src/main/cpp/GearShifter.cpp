@@ -1,9 +1,11 @@
 #include <frc/DoubleSolenoid.h>
 #include <iostream>
-#include "Subsystems/Drivetrain/GearShifter.h"
+#include "CompBot/Drivetrain/GearShifter.h"
 
-bool GearShifter::ishighgear() {
-    return high_gear;
+
+GearShifter::GearShifter() {
+    high_gear = false;
+    shifter = new frc::DoubleSolenoid( 0, 0, 1 );
 }
 
 void GearShifter::shiftgear() {
@@ -12,10 +14,8 @@ void GearShifter::shiftgear() {
     } else { 
         shifter->Set(frc::DoubleSolenoid::kReverse);
     }
-
 }
 
-GearShifter::GearShifter() {
-    high_gear = false;
-    shifter = new frc::DoubleSolenoid( 0, 0, 1 );
+bool GearShifter::isHighGear() {
+    return high_gear;
 }
