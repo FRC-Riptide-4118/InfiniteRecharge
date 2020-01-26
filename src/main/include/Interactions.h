@@ -17,4 +17,5 @@ class Interactions {
     bool getShiftGear();
     bool enterPIDFXClosedLoop();
     double shooterRawSpeed();
+    bool toggleLimeLightCamera();
 };

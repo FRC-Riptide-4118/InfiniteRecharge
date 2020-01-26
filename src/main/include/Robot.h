@@ -1,6 +1,7 @@
 #pragma once
 #include <frc/TimedRobot.h>
 #include "ctre/Phoenix.h"
+#include "Subsystems/Drivetrain/GearShifter.h"
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
 #include <frc/DigitalInput.h>
@@ -17,6 +18,7 @@ class Robot : public frc::TimedRobot {
   Interactions *interaction;
   int _loops = 0;
   bool shifter_highgear;
+  GearShifter *shifter;
 
  public:
   void RobotInit() override;
@@ -30,5 +32,5 @@ class Robot : public frc::TimedRobot {
   void TestInit() override;
   void TestPeriodic() override;
 
-  void toggle();
+  void toggleCameraMode();
 };

@@ -5,8 +5,7 @@
 #include <frc/XboxController.h>
 
 
-Interactions::Interactions( frc::XboxController *icontroller1,
-        frc::XboxController *icontroller2  ) {
+Interactions::Interactions( frc::XboxController *icontroller1, frc::XboxController *icontroller2  ) {
     controller1 = icontroller1;
     controller2 = icontroller2;
 }
@@ -31,3 +30,7 @@ bool Interactions::enterPIDFXClosedLoop() {
 double Interactions::shooterRawSpeed() {
     return controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand);
 }
+
+bool Interactions::toggleLimeLightCamera() {
+    return controller1->GetAButtonPressed();
+}   

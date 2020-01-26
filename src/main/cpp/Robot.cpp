@@ -8,10 +8,9 @@
 #include <iostream>
 #include "Robot.h"
 #include "Interactions.h"
-#include "Subsystems/Drivetrain/Pneumatics.h"
-#include "Subsystems/Drivetrain/Motors.h"
+#include "Subsystems/Drivetrain/GearShifter.h"
+#include "Subsystems/Drivetrain/GearBoxMotors.h"
 #include "Constants.h"
-
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
 #include <frc/TimedRobot.h>
@@ -20,12 +19,6 @@
 #include <frc/Servo.h>
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
-
-
-frc::SpeedControllerGroup left(srx_Left_Front, srx_Left_Middle, srx_Left_Back);
-frc::SpeedControllerGroup right(srx_Right_Front, srx_Right_Middle, srx_Right_Back);
-
-frc::DifferentialDrive drive(left, right);
 
 /*
 This is the mapping of all buttons on the controller:
@@ -39,17 +32,17 @@ This is the mapping of all buttons on the controller:
     -Right Joystick
         - The X axis of the computer for driving/turning
     -Right Trigger
-        - Turning on the Falcon 500
+        - Changing the value of the Falcon 500
     -Left Trigger
         - Unassigned
     -X Button
         - Enters closed loop target positioning
     -A Button
-        - Unassigned
+        - toggleCameraMode
     -B Button 
-        - High gear shifting
+        - High/low gear shifting
     -Y Button
-        - Low gear shifting
+        - 
     -Left Joystick Button
         - Unassigned
     -Right Joystick Button
@@ -60,15 +53,15 @@ This is the mapping of all buttons on the controller:
         -unassigned
 
 */
-std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+ std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
 
 void Robot::RobotInit() {
+    shifter = new GearShifter();
     FX1 = new TalonFX(0);
     Controller1 = new frc::XboxController(0);
     Controller2 = new frc::XboxController(1);
     interaction = new Interactions( Controller1, Controller2 );
-    shifter_highgear = false;
 
     FX1->ConfigFactoryDefault();
 
@@ -112,9 +105,9 @@ void Robot::TeleopInit() {
 
 }
 
-void Robot::toggle() {
+void Robot::toggleCameraMode() {
 
-    if (Controller1->GetAButtonPressed()) {
+    if (interaction->toggleLimeLightCamera()) {
 
         table->PutNumber("camMode", !table->GetNumber("camMode", 0));
         table->PutNumber("ledMode", !table->GetNumber("ledMode", 0));
@@ -160,16 +153,10 @@ void Robot::TeleopPeriodic() {
     std::cout << "Left Sensor Velocity: " << srx_Left_Back.GetSelectedSensorVelocity() << std::endl;
 //    std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
 
-    toggle();
+    toggleCameraMode();
 
     if ( interaction->getShiftGear() ) {
-        shifter_highgear = !shifter_highgear;
-    }
-
-    if (shifter_highgear) { 
-        Shifter.Set(frc::DoubleSolenoid::kForward);
-    } else { 
-        Shifter.Set(frc::DoubleSolenoid::kReverse);
+        shifter->shiftGear();
     }
 
     //Driving/Turning of the robot
