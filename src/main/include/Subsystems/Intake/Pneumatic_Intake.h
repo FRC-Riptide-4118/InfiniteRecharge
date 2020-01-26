@@ -1,7 +1,7 @@
 #include <iostream>
 #include "frc/DoubleSolenoid.h"
 
-class PneumaticDeploy {
+class Pneumatic_Intake {
     private:
     frc::
         
