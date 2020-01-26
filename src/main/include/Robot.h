@@ -12,9 +12,9 @@
 
 class Robot : public frc::TimedRobot {
  private:
-  TalonFX * FX1;
-  frc::XboxController * Controller1;
-  frc::XboxController * Controller2;
+  TalonFX *FX1;
+  frc::XboxController *Controller1;
+  frc::XboxController *Controller2;
   Interactions *interaction;
   int _loops = 0;
   bool shifter_highgear;
