@@ -52,8 +52,8 @@ void Robot::RobotInit() {
         drive.ArcadeDrive(0, 0, 0);
 //sensor setup
      FX1->ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
-     srx_Right_Back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
-     srx_Left_Back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+     srx_right_back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+     srx_left_back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
 
 }
 
@@ -118,7 +118,7 @@ void Robot::TeleopPeriodic() {
 		}
 		_sb.clear();
 
-    std::cout << "Left Sensor Velocity: " << srx_Left_Back.GetSelectedSensorVelocity() << std::endl;
+    std::cout << "Left Sensor Velocity: " << srx_left_back.GetSelectedSensorVelocity() << std::endl;
 //    std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
 
     toggleCameraMode();
