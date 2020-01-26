@@ -126,7 +126,7 @@ void Robot::TeleopPeriodic() {
     toggleCameraMode();
 
     if ( interaction->getShiftGear() ) {
-        shifter->shiftgear();
+        shifter->ShiftGear();
     }
 
     if (interaction->deployPneumatic_Intake() ) {
