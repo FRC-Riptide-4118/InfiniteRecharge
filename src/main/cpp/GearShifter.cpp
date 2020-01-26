@@ -8,7 +8,7 @@ GearShifter::GearShifter() {
     shifter = new frc::DoubleSolenoid( 0, 0, 1 );
 }
 
-void GearShifter::shiftgear() {
+void GearShifter::ShiftGear() {
     if (high_gear) { 
         shifter->Set(frc::DoubleSolenoid::kForward);
     } else { 
@@ -16,6 +16,6 @@ void GearShifter::shiftgear() {
     }
 }
 
-bool GearShifter::isHighGear() {
+bool GearShifter::IsHighGear() {
     return high_gear;
 }
