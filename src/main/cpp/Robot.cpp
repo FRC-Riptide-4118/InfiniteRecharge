@@ -258,7 +258,7 @@ void Robot::TeleopPeriodic() {
         
     }
 
-    else if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) { 
+    else if (Controller1.GetYButtonPressed()) { 
 
         DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
         
