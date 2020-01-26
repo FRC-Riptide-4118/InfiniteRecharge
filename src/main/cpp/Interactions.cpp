@@ -33,3 +33,7 @@ double Interactions::shooterRawSpeed() {
 bool Interactions::toggleLimeLightCamera() {
     return controller1->GetAButtonPressed();
 }   
+
+bool Interactions::deployPneumatic_Intake() {
+    return controller1->GetStartButtonPressed();
+}
