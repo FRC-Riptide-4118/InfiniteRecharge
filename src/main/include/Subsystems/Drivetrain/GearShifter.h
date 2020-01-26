@@ -4,8 +4,8 @@
 
 class GearShifter {
   private:
-    bool high_gear;
-    frc::DoubleSolenoid *shifter;
+      bool high_gear;
+      frc::DoubleSolenoid *shifter;
   public:  
       GearShifter();
       bool ishighgear();
