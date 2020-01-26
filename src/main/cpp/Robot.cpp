@@ -236,6 +236,7 @@ void Robot::TeleopPeriodic() {
 
     }
 
+    toggle();
 
     std::cout << HEman.Get();
 
