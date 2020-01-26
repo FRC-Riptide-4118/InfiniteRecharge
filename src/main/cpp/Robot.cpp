@@ -7,17 +7,16 @@
 
 #include <iostream>
 #include "Robot.h"
-#include "ctre/Phoenix.h"
+#include "Subsystems/Drivetrain/Pneumatics.h"
+#include "Subsystems/Drivetrain/Motors.h"
+#include "Constants.h"
+
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
-#include <frc/Solenoid.h>
-#include <frc/SolenoidBase.h>
-#include <frc/DoubleSolenoid.h>
-#include <frc/drive/DifferentialDrive.h>
-#include <frc/SpeedControllerGroup.h>
+#include <frc/TimedRobot.h>
+#include "ctre/Phoenix.h"
 #include <frc/DigitalInput.h>
 #include <frc/Servo.h>
-#include "Constants.h"
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
 
