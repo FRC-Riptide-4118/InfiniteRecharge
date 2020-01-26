@@ -1,11 +1,6 @@
 #ifndef SRC_CONSTANTS_H_
 #define SRC_CONSTANTS_H_
 
-namespace LimelightConstants {
-
-	double kP = 0.5;
-
-};
 
 enum Constants {
 	/**
