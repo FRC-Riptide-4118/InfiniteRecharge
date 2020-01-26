@@ -39,46 +39,6 @@ WPI_VictorSPX spxBL = {2};
 WPI_VictorSPX spxFR = {3};
 WPI_VictorSPX spxMR = {4};
 WPI_VictorSPX spxBR = {5};
-// //Hal Effect sensor setuo
-
-frc::DigitalInput HEman {0};
-
-//Piston Fire-Solenoid setup    
-
-frc::DoubleSolenoid Dsole { 1, 0, 1};
-frc::DoubleSolenoid DsoleDTrain {0, 0, 1};
-
-//Sets up controller
-
-frc::XboxController Controller1{0};
-
-//Basic Motor Control bases
-
-//Left speed group
-// WPI_TalonSRX srxFL = {1};
-// WPI_TalonSRX srxML = {2};
-// //for 2019 robot
-// WPI_TalonSRX srxBL = {3};
-
-// //Right speed group
-// WPI_TalonSRX srxFR = {4};
-// WPI_TalonSRX srxMR = {5};
-// //for 2019 robot
-// WPI_TalonSRX srxBR = {6};
-
-frc::Servo Blocker {0};
-
- frc::SpeedControllerGroup left(spxFL, spxML, spxBL);
- frc::SpeedControllerGroup right(spxFR, spxMR, spxBR);
-
- frc::DifferentialDrive drive(left, right);
-
-
-//Falcon 500 setup & Vision tracking
-TalonFX FX1 = {6};
-
-std::string _sb;
-int _loops = 0;
 
 
 /*
