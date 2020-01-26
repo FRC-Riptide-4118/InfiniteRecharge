@@ -188,9 +188,9 @@ void Robot::TeleopPeriodic() {
         
 }
 
-    else if (Controller1.GetYButtonPressed()) { 
+    else if (Controller1->GetYButtonPressed()) { 
 
-        DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
+        Shifter.Set(frc::DoubleSolenoid::kReverse);
         
 }
 
