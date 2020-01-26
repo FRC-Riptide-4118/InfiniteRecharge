@@ -243,20 +243,20 @@ void Robot::TeleopPeriodic() {
 
         Blocker.Set(1);
 
-    }
+}
 
     else {
 
         Blocker.Set(0);
 
-    }
+}
 
 
     if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand)) { 
         
         DsoleDTrain.Set(frc::DoubleSolenoid::kForward);
         
-    }
+}
 
     else if (Controller1.GetYButtonPressed()) { 
 
