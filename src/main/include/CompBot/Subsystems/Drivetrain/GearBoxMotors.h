@@ -10,17 +10,8 @@ WPI_TalonSRX srx_right_front    = {3};
 WPI_TalonSRX srx_right_middle   = {4};
 WPI_TalonSRX srx_right_back     = {5};
 
-WPI_VictorSPX spx_left_front    = {0};
-WPI_VictorSPX spx_left_middle   = {1};
-WPI_VictorSPX spx_left_back     = {2};
-
-
-WPI_VictorSPX spx_right_front   = {3};
-WPI_VictorSPX spx_right_middle  = {4};
-WPI_VictorSPX spx_right_back    = {5};
-
-frc::SpeedControllerGroup left(srx_Left_Front, srx_Left_Middle, srx_Left_Back);
-frc::SpeedControllerGroup right(srx_Right_Front, srx_Right_Middle, srx_Right_Back);
+frc::SpeedControllerGroup left(srx_left_front, srx_left_middle, srx_left_back);
+frc::SpeedControllerGroup right(srx_right_front, srx_right_middle, srx_right_back);
 
 frc::DifferentialDrive drive(left, right);
 
