@@ -3,8 +3,13 @@
 
 class Pneumatic_Intake {
     private:
-    frc::
+        bool deployed;
+        frc::DoubleSolenoid *intakeDeploy;
         
     public:
+        Pneumatic_Intake();
+        bool isDeployed();
+        void deployIntake();
 
+        void DefaultIntakePneumatics();        
 };
