@@ -60,9 +60,6 @@ frc::Servo Blocker {0};
 //Falcon 500 setup
 TalonFX FX1 = {6};
 
-
-
-
 void Robot::RobotInit() {
 
 
