@@ -177,8 +177,64 @@ void toggle() {
 
     }
 
-    std::cout << "Left Sensor Velocity: " << srxBL.GetSelectedSensorVelocity() << std::endl;
-    std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
+}
+
+
+void rotateToTarget() {
+
+    double tx = table->GetNumber("tx", 0.0);
+    double output = LimelightConstants::kP*tx;
+    drive.ArcadeDrive(0.0, output);
+
+}
+
+void Robot::TeleopPeriodic() {
+//     // Get trigger axis and assigns x button as a bool value
+//     double RTriggerAxis = Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
+//     double MotorOutput = FX1.GetMotorOutputPercent();
+//     bool XBtn = Controller1.GetXButton();
+
+//     //prepares line to print
+//     _sb.append("\tout:");
+//     _sb.append(std::to_string(MotorOutput));
+//     _sb.append("\tcur:");
+//     _sb.append(std::to_string(FX1.GetOutputCurrent()));
+
+// //  on XBtn pressed enters the closed loop mode
+//     if (XBtn == 1) {
+//         //Position mode
+//         FX1.Set(ControlMode::Current, RTriggerAxis * 40); //40 amps on press
+//     } else {
+//         FX1.Set(ControlMode::PercentOutput, RTriggerAxis);
+//     }
+
+// //  If talon is in position closed loop print some more info
+//     if (FX1.GetControlMode() == ControlMode::Current) {
+//         // append more signals to print when in speed mode. 
+// 			_sb.append("\terrNative:");
+// 			_sb.append(std::to_string(FX1.GetClosedLoopError(kPIDLoopIdx)));
+// 			_sb.append("\ttrg:");
+// 			_sb.append(std::to_string(RTriggerAxis * 40));
+// }
+
+//     // Prints every ten loops
+//     if (++_loops >= 10) {
+//         _loops = 0;
+//         printf("%s\n", _sb.c_str());
+// }
+
+//     _sb.clear();
+
+// }
+
+    std::cout << "Left Sensor Velocity: " << spxBL.GetSelectedSensorVelocity() << std::endl;
+    std::cout << "Right Sensor Velocity: " << spxBR.GetSelectedSensorVelocity() << std::endl;
+
+    while (Controller1.GetAButton()) {
+
+        rotateToTarget();
+
+    }
 
 
     std::cout << HEman.Get();
