@@ -58,6 +58,7 @@ This is the mapping of all buttons on the controller:
 
 void Robot::RobotInit() {
     shifter = new GearShifter();
+    intakeDeploy = new Pneumatic_Intake();
     FX1 = new TalonFX(0);
     Controller1 = new frc::XboxController(0);
     Controller2 = new frc::XboxController(1);
@@ -158,6 +159,10 @@ void Robot::TeleopPeriodic() {
     if ( interaction->getShiftGear() ) {
         shifter->shiftGear();
         shifter->shiftgear();
+    }
+
+    if (interaction->deployPneumatic_Intake() ) {
+        intakeDeploy->deployIntake();
     }
 
     //Driving/Turning of the robot
