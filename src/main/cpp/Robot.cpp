@@ -97,15 +97,6 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
 
-    if (_LoopCount++ > 10) {
-
-        _LoopCount = 0;
-        PigIMU1.GetYawPitchRoll(double ypr);
-        std::cout << "Pidgeon Yaw is:" << ypr << std::endl;
-
-    }
-        std::cout << "Pidgeon Yaw is: " << ypr[0] << std::endl;
-
     std::cout << "Left Sensor Velocity: " << srxBL.GetSelectedSensorVelocity() << std::endl;
     std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
 
