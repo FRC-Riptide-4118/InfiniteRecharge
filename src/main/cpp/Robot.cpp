@@ -7,76 +7,58 @@
 
 #include <iostream>
 #include "Robot.h"
-#include "ctre/Phoenix.h"
+#include "Interactions.h"
+#include "CompBot/Drivetrain/GearShifter.h"
+#include "CompBot/Drivetrain/GearBoxMotors.h"
+#include "Constants.h"
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
-#include <frc/Solenoid.h>
-#include <frc/SolenoidBase.h>
-#include <frc/DoubleSolenoid.h>
-#include <frc/drive/DifferentialDrive.h>
-#include <frc/SpeedControllerGroup.h>
+#include <frc/TimedRobot.h>
+#include "ctre/Phoenix.h"
 #include <frc/DigitalInput.h>
 #include <frc/Servo.h>
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableInstance.h"
 
 
+ std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
-
-
-//Hal Effect sensor setuo
-
-frc::DigitalInput HEman {0};
-
-//Piston Fire-Solenoid setup    
-
-frc::DoubleSolenoid Dsole { 1, 0, 1};
-frc::DoubleSolenoid DsoleDTrain {0, 0, 1};
-
-//Sets up controller
-
-frc::XboxController Controller1{0};
-
-//Basic Motor Control bases
-
-//Left speed group
-WPI_TalonSRX srxFL = {1};
-WPI_TalonSRX srxML = {2};
-//for 2019 robot
-WPI_TalonSRX srxBL = {3};
-
-//Right speed group
-WPI_TalonSRX srxFR = {4};
-WPI_TalonSRX srxMR = {5};
-//for 2019 robot
-WPI_TalonSRX srxBR = {6};
-
-frc::Servo Blocker {0};
-
- frc::SpeedControllerGroup left(srxFL, srxML, srxBL);
- frc::SpeedControllerGroup right(srxFR, srxMR, srxBR);
-
- frc::DifferentialDrive drive(left, right);
-
-
-//Falcon 500 setup
-TalonFX FX1 = {6};
 
 void Robot::RobotInit() {
+    shifter = new GearShifter();
+    intakeDeploy = new Pneumatic_Intake();
+    FX1 = new TalonFX(0);
+    Controller1 = new frc::XboxController(0);
+    Controller2 = new frc::XboxController(1);
+    interaction = new Interactions( Controller1, Controller2 );
+
+    FX1->ConfigFactoryDefault();
+
+    //Sets the peak  and nominal outputs, 12v   
+
+    FX1->ConfigNominalOutputForward(1, kTimeoutMs);
+    FX1->ConfigNominalOutputReverse(-1, kTimeoutMs);
+    FX1->ConfigPeakOutputForward(1, kTimeoutMs);
+    FX1->ConfigPeakOutputReverse(-1, kTimeoutMs);
+
+    //Set closed loop gains in slot 0
+
+    FX1->Config_kF(kPIDLoopIdx, 0.0, kTimeoutMs);
+    FX1->Config_kP(kPIDLoopIdx, 0.0, kTimeoutMs);
+    FX1->Config_kI(kPIDLoopIdx, 0.0, kTimeoutMs);
+    FX1->Config_kD(kPIDLoopIdx, 0.0, kTimeoutMs);
 
 
 //Initial speed of the motors
         drive.ArcadeDrive(0, 0, 0);
 //sensor setup
-     FX1.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
-     srxBR.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
-     srxBL.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
-
-     Blocker.Set(0);
+     FX1->ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
+     srx_right_back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+     srx_left_back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
 
 }
 
 void Robot::AutonomousInit() {
-
-    Dsole.Set(frc::DoubleSolenoid::Value::kForward);
 
 }
 
@@ -85,74 +67,78 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-    DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
-
-    Blocker.Set(0);
     
 //when teleop Initialy starts sets speed of all the motors
-    drive.ArcadeDrive(0, 0, 0);
-    FX1.Set(ControlMode::PercentOutput, 0);
+    drive.ArcadeDrive(0, 0);
+    FX1->Set(ControlMode::PercentOutput, 0);
 
 }
 
+void Robot::toggleCameraMode() {
+
+    if (interaction->toggleLimeLightCamera()) {
+
+        table->PutNumber("camMode", !table->GetNumber("camMode", 0));
+        table->PutNumber("ledMode", !table->GetNumber("ledMode", 0));
+
+    }
+
+}
+
+
 void Robot::TeleopPeriodic() {
+    // get gamepad axis
+    const double AMPS_CHANGE_DIRECTION = 20;    
+    double motorOutput = FX1->GetOutputCurrent();
+    std::string _sb;
 
-    std::cout << "Left Sensor Velocity: " << srxBL.GetSelectedSensorVelocity() << std::endl;
-    std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
+    /* prepare line to print */
+		_sb.append("\tout:");
+		_sb.append(std::to_string(motorOutput));
+		_sb.append("\tcur:");
+		_sb.append(std::to_string(FX1->GetOutputCurrent()));
+		/* on button1 press enter closed-loop mode on target position */
+		if (interaction->enterPIDFXClosedLoop()) {
+			/* Position mode - button just pressed */
+			FX1->Set(ControlMode::Current, interaction->shooterRawSpeed() * AMPS_CHANGE_DIRECTION); /* 40 Amps in either direction */
+		} else {
+			FX1->Set(ControlMode::PercentOutput, interaction->shooterRawSpeed());
+		}
+		/* if Talon is in position closed-loop, print some more info */
+		if (FX1->GetControlMode() == ControlMode::Current) {
+			/* append more signals to print when in speed mode. */
+			_sb.append("\terrNative:");
+			_sb.append(std::to_string(FX1->GetClosedLoopError(kPIDLoopIdx)));
+			_sb.append("\ttrg:");
+			_sb.append(std::to_string(interaction->shooterRawSpeed() * AMPS_CHANGE_DIRECTION));
+		}
+		/* print every ten loops, printing too much too fast is generally bad for performance */
+		if (++_loops >= 10) {
+			_loops = 0;
+			printf("%s\n", _sb.c_str());
+		}
+		_sb.clear();
 
+//   std::cout << "Left Sensor Velocity: " << srx_Left_Back.GetSelectedSensorVelocity() << std::endl;
 
-    std::cout << HEman.Get();
+//   std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
 
-    if (HEman.Get()) {
+    toggleCameraMode();
 
-        Blocker.Set(1);
-
+    if ( interaction->getShiftGear() ) {
+        shifter->ShiftGear();
     }
 
-    else {
-
-        Blocker.Set(0);
-
+    if (interaction->deployPneumatic_Intake() ) {
+        intakeDeploy->deployIntake();
     }
 
+    //Driving/Turning of the robot
+    double Turn = interaction->getTurn();
+    double Drive = interaction->getDrive();
 
-    if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand)) { 
-        
-        DsoleDTrain.Set(frc::DoubleSolenoid::kForward);
-        
-    }
-
-    else if (Controller1.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) { 
-
-        DsoleDTrain.Set(frc::DoubleSolenoid::kReverse);
-        
-        }
-
-    double Turn = Controller1.GetX(frc::GenericHID::JoystickHand::kRightHand);
-    double Drive = Controller1.GetY(frc::GenericHID::JoystickHand::kLeftHand);
     drive.ArcadeDrive(Drive, Turn, true);
 
-    FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
-
-    //std::cout << FX1.GetSelectedSensorVelocity() << std::endl;
-
-    if (Controller1.GetStickButtonPressed(frc::GenericHID::JoystickHand::kLeftHand)) { Dsole.Set(frc::DoubleSolenoid::Value::kReverse); }
-
-    // turning & Driving function
-
-    //Shooter Control
-    if (Controller1.GetAButtonPressed()) { Dsole.Set(frc::DoubleSolenoid::Value::kForward); }
-
-    FX1.Set(ControlMode::PercentOutput, Controller1.GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
-
-    // if (Controller1.GetStartButton()) {
-    //     std::cout << "Sensor Left Velocity: " << srxFL.GetSelectedSensorVelocity() << std::endl;
-    //     std::cout << "Sensor Left Position: " << srxFL.GetSelectedSensorPosition() << std::endl;
-    //     std::cout << "Left Output %: " << srxFL.GetMotorOutputPercent() << std::endl;
-    //     std::cout << "Sensor Right Velocity: " << srxFR.GetSelectedSensorVelocity() << std::endl;
-    //     std::cout << "Sensor Right Position: " << srxFR.GetSelectedSensorPosition() << std::endl;
-    //     std::cout << "Right Output %: " << srxFR.GetMotorOutputPercent() << std::endl;
-    // }
 }
 
 void Robot::TestInit() {}

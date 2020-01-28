@@ -15,5 +15,12 @@
     "**/*~": true
   },
   "C_Cpp.default.configurationProvider": "vscode-wpilib",
-  "C_Cpp.errorSquiggles": "Disabled"
+  "C_Cpp.errorSquiggles": "disabled",
+  "files.associations": {
+    "*.inc": "cpp",
+    "iostream": "cpp",
+    "*.tcc": "cpp",
+    "bitset": "cpp",
+    "random": "cpp"
+  }
 }
