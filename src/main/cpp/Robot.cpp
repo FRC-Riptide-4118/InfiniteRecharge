@@ -20,14 +20,17 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
 
+#include <frc/smartdashboard/smartdashboard.h>
+
 
  std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+ frc::Servo falcon_Test(0);
 
 
 void Robot::RobotInit() {
     shifter = new GearShifter();
     intakeDeploy = new Pneumatic_Intake();
-    FX1 = new TalonFX(0);
+    FX1 = new TalonFX(6);
     Controller1 = new frc::XboxController(0);
     Controller2 = new frc::XboxController(1);
     interaction = new Interactions( Controller1, Controller2 );
@@ -87,8 +90,9 @@ void Robot::toggleCameraMode() {
 
 
 void Robot::TeleopPeriodic() {
+
     // get gamepad axis
-    const double AMPS_CHANGE_DIRECTION = 20;    
+    const double AMPS_CHANGE_DIRECTION = 30;    
     double motorOutput = FX1->GetOutputCurrent();
     std::string _sb;
 
@@ -97,9 +101,11 @@ void Robot::TeleopPeriodic() {
 		_sb.append(std::to_string(motorOutput));
 		_sb.append("\tcur:");
 		_sb.append(std::to_string(FX1->GetOutputCurrent()));
-		/* on button1 press enter closed-loop mode on target position */
+        std::cout << FX1->GetSelectedSensorVelocity() << std::endl;
+		/* on x press enter closed-loop mode on target position */
 		if (interaction->enterPIDFXClosedLoop()) {
 			/* Position mode - button just pressed */
+            std::cout << "enteredPIDFXClosedLoop" << std::endl;
 			FX1->Set(ControlMode::Current, interaction->shooterRawSpeed() * AMPS_CHANGE_DIRECTION); /* 40 Amps in either direction */
 		} else {
 			FX1->Set(ControlMode::PercentOutput, interaction->shooterRawSpeed());
@@ -137,7 +143,22 @@ void Robot::TeleopPeriodic() {
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
 
-    drive.ArcadeDrive(Drive, Turn, true);
+    // drive.ArcadeDrive(Drive, Turn, true);
+
+    if (FX1->GetSelectedSensorVelocity() >= 20000) {
+        falcon_Test.Set(1);
+    } else {
+        falcon_Test.Set(0);
+    }
+
+
+
+    // SmartDashboard telemetry
+    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
+    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
+    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
+    frc::SmartDashboard::PutString("Color Decision", colorString);
+    frc::SmartDashboard::PutNumber("IR", IR);
 
 }
 
