@@ -1,8 +1,8 @@
 #include "Interactions.h"
 #include "Constants.h"
-
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
+#include "Launcher/VelocityTracking.h"
 
 /*
 This is the mapping of all buttons on the controller:
@@ -37,7 +37,6 @@ This is the mapping of all buttons on the controller:
         -unassigned
 
 */
-
 
 Interactions::Interactions( frc::XboxController *icontroller1, frc::XboxController *icontroller2  ) {
     controller1 = icontroller1;

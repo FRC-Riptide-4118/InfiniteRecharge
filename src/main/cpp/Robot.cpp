@@ -92,7 +92,7 @@ void Robot::toggleCameraMode() {
 void Robot::TeleopPeriodic() {
 
     // get gamepad axis
-    double TriggerAxis = Controller1->GetTriggerAxis(frc::GenericHID::Joystickhand::kLeftHand);   
+    double TriggerAxis = Controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);   
     double motorOutput = FX1->GetMotorOutputPercent();
     std::string _sb;
 
@@ -101,7 +101,7 @@ void Robot::TeleopPeriodic() {
     _sb.append("\tspd: ");
     _sb.append(std::to_string(FX1->GetSelectedSensorVelocity(kPIDLoopIdx)));
 
-    if(Interactions::enterPIDFXClosedLoop) {
+    if(Controller1->GetXButtonPressed()) {
 
         double targetVelocity_UnitsPer100Ms = TriggerAxis * 500.0 * 4096 / 600;
 
