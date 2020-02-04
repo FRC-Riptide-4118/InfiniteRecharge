@@ -24,9 +24,14 @@
 
 
  std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
- frc::Servo falcon_Test(0);
+
+ frc::Servo elevator_Stop_Left(0);
+ frc::Servo elevator_Stop_Right(1);
+frc::Servo conveyor_Hard_Stop(2);
 
  frc::DigitalInput limitSwitch_Test {1};
+
+ 
 
 
 void Robot::RobotInit() {
@@ -56,8 +61,8 @@ void Robot::RobotInit() {
 //Initial speed of the motors
         drive.ArcadeDrive(0, 0, 0);
 //sensor setup
-     srx_right_back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
-     srx_left_back.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+     srx_right_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+     srx_left_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
 
 }
 
@@ -141,7 +146,7 @@ void Robot::TeleopPeriodic() {
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
 
-    // drive.ArcadeDrive(Drive, Turn, true);
+    drive.ArcadeDrive(Drive, Turn, true);
 
 
 // ctre::pheonix::sensors::PigeonIMU::PigeonIMU(srx_left_back);
@@ -153,7 +158,7 @@ void Robot::TeleopPeriodic() {
 //     frc::SmartDashboard::PutString("Color Decision", colorString);
 //     frc::SmartDashboard::PutNumber("IR", IR);
 
-// }
+}
 
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
