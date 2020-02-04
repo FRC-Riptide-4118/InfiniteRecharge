@@ -21,6 +21,7 @@
     "iostream": "cpp",
     "*.tcc": "cpp",
     "bitset": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "string": "cpp"
   }
 }
