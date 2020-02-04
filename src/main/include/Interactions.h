@@ -1,7 +1,6 @@
 #pragma once
 #include "Interactions.h"
 #include "Constants.h"
-
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
 
