@@ -19,7 +19,6 @@
 #include <frc/Servo.h>
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
-
 #include <frc/smartdashboard/smartdashboard.h>
 
 
@@ -31,17 +30,28 @@ frc::Servo conveyor_Hard_Stop(2);
 
  frc::DigitalInput limitSwitch_Test {1};
 
- 
+
+
+//pigeon imu setup
+
+PigeonIMU IMU   = {2};
+int _loopCountIMU = 0;
+
 
 
 void Robot::RobotInit() {
     shifter = new GearShifter();
     intakeDeploy = new Pneumatic_Intake();
     FX1 = new TalonFX(6);
+    ypr = new double;
     Controller1 = new frc::XboxController(0);
     Controller2 = new frc::XboxController(1);
     interaction = new Interactions( Controller1, Controller2 );
 
+
+
+
+    IMU.ConfigFactoryDefault();
 
     FX1->ConfigFactoryDefault();
 
@@ -61,7 +71,7 @@ void Robot::RobotInit() {
 //Initial speed of the motors
         drive.ArcadeDrive(0, 0, 0);
 //sensor setup
-     srx_right_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
+    //  srx_right_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
      srx_left_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
 
 }
@@ -77,7 +87,7 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
     
 //when teleop Initialy starts sets speed of all the motors
-    drive.ArcadeDrive(0, 0);
+    // drive.ArcadeDrive(0, 0);
     FX1->Set(ControlMode::PercentOutput, 0);
 
 }
@@ -95,6 +105,20 @@ void Robot::toggleCameraMode() {
 
 
 void Robot::TeleopPeriodic() {
+
+
+
+    if (Controller1->GetStartButton() ) {
+        _loopCountIMU = _loopCountIMU + 10;
+        std::cout << _loopCountIMU;
+    }
+
+    if ( _loopCountIMU >= 10 ) {
+        
+        _loopCountIMU = 0;
+        IMU.GetYawPitchRoll(ypr);
+        std::cout << "Yaw: Pitch: Roll: " << ypr;
+    }
 
     // get gamepad axis
     double TriggerAxis = Controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);   
@@ -143,10 +167,10 @@ void Robot::TeleopPeriodic() {
     }
 
     //Driving/Turning of the robot
-    double Turn = interaction->getTurn();
-    double Drive = interaction->getDrive();
+    // double Turn = interaction->getTurn();
+    // double Drive = interaction->getDrive();
 
-    drive.ArcadeDrive(Drive, Turn, true);
+    // drive.ArcadeDrive(Drive, Turn, true);
 
 
 // ctre::pheonix::sensors::PigeonIMU::PigeonIMU(srx_left_back);

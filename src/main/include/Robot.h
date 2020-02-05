@@ -17,6 +17,7 @@ class Robot : public frc::TimedRobot {
   frc::XboxController *Controller1;
   frc::XboxController *Controller2;
   Interactions *interaction;
+  double *ypr;
   int _loops = 0;
   bool shifter_highgear;
   GearShifter *shifter;
