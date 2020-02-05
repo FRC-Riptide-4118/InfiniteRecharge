@@ -9,7 +9,8 @@
 #include "Robot.h"
 #include "Interactions.h"
 #include "CompBot/Drivetrain/GearShifter.h"
-#include "CompBot/Drivetrain/GearBoxMotors.h"
+#include <frc/drive/DifferentialDrive.h>
+#include <frc/SpeedControllerGroup.h>
 #include "Constants.h"
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
