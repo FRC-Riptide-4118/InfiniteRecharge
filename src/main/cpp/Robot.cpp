@@ -34,9 +34,8 @@ frc::Servo conveyor_Hard_Stop(2);
 
 
 //pigeon imu setup
+PigeonIMU _pidgey = {2};
 
-PigeonIMU IMU   = {2};
-int _loopCountIMU = 0;
 
 WPI_TalonSRX srx_left_front     = {0};
 WPI_TalonSRX srx_left_middle    = {1};
@@ -55,15 +54,10 @@ void Robot::RobotInit() {
     shifter = new GearShifter();
     intakeDeploy = new Pneumatic_Intake();
     FX1 = new TalonFX(6);
-    ypr = new double;
     Controller1 = new frc::XboxController(0);
     Controller2 = new frc::XboxController(1);
     interaction = new Interactions( Controller1, Controller2 );
-
-
-
-
-    IMU.ConfigFactoryDefault();
+    _pidgey = new PigeonIMU(1);
 
     FX1->ConfigFactoryDefault();
 
@@ -120,19 +114,11 @@ void Robot::toggleCameraMode() {
 
 void Robot::TeleopPeriodic() {
 
+    double ypr[3];
+    double xyz_dps[3];
+    double xyz_deg[3];
 
 
-    if (Controller1->GetStartButton() ) {
-        _loopCountIMU = _loopCountIMU + 10;
-        std::cout << _loopCountIMU;
-    }
-
-    if ( _loopCountIMU >= 10 ) {
-        
-        _loopCountIMU = 0;
-        IMU.GetYawPitchRoll(ypr);
-        std::cout << "Yaw: Pitch: Roll: " << ypr;
-    }
 
     // get gamepad axis
     // double TriggerAxis = Controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);   
@@ -181,6 +167,11 @@ void Robot::TeleopPeriodic() {
         intakeDeploy->deployIntake();
     }
 
+    if (Controller1->GetAButton()) {
+        frc::SmartDashboard::PutNumber("ypr: ", _pidgey->GetYawPitchRoll(ypr));
+        frc::SmartDashboard::PutNumber("XYZ_dps: ", _pidgey->GetRawGyro(xyz_dps));
+        frc::SmartDashboard::PutNumber("XYZ_Deg: ", _pidgey->GetAccumGyro(xyz_deg));
+    }
     //Driving/Turning of the robot
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
