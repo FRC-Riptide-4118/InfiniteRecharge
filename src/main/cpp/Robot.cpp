@@ -97,7 +97,6 @@ void Robot::TeleopInit() {
 //when teleop Initialy starts sets speed of all the motors
     // drive.ArcadeDrive(0, 0);
     FX1->Set(ControlMode::PercentOutput, 0);
-
 }
 
 void Robot::toggleCameraMode() {
@@ -119,43 +118,36 @@ void Robot::TeleopPeriodic() {
     double xyz_deg[3];
 
 
+    double TriggerAxis = Controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);   
+    double motorOutput = FX1->GetMotorOutputPercent();
+    std::string _sb;
 
-    // get gamepad axis
-    // double TriggerAxis = Controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);   
-    // double motorOutput = FX1->GetMotorOutputPercent();
-    // std::string _sb;
+    _sb.append("\tout");
+    _sb.append(std::to_string(motorOutput));
+    _sb.append("\tspd: ");
 
-    // _sb.append("\tout");
-    // _sb.append(std::to_string(motorOutput));
-    // _sb.append("\tspd: ");
+    _sb.append(std::to_string(FX1->GetSelectedSensorVelocity(kPIDLoopIdx)));
 
-    // _sb.append(std::to_string(FX1->GetSelectedSensorVelocity(kPIDLoopIdx)));
+    if(Controller1->GetXButton()) {
 
-    // if(Controller1->GetXButton()) {
+        double targetVelocity_UnitsPer100Ms = 17000;
 
-    //     double targetVelocity_UnitsPer100Ms = 17000;
-
-    //     FX1->Set(ControlMode::Velocity, targetVelocity_UnitsPer100Ms);
+        FX1->Set(ControlMode::Velocity, targetVelocity_UnitsPer100Ms);
 
 
-    //     _sb.append("\terrNative:");
-    //     _sb.append(std::to_string(FX1->GetClosedLoopError(kPIDLoopIdx)));
-    //     _sb.append("\ttrg:");
-    //     _sb.append(std::to_string(targetVelocity_UnitsPer100Ms));
-    // } else {
+        _sb.append("\terrNative:");
+        _sb.append(std::to_string(FX1->GetClosedLoopError(kPIDLoopIdx)));
+        _sb.append("\ttrg:");
+        _sb.append(std::to_string(targetVelocity_UnitsPer100Ms));
+    } else {
 
-    //     FX1->Set(ControlMode::PercentOutput, TriggerAxis);
-    // }
+        FX1->Set(ControlMode::PercentOutput, TriggerAxis);
+    }
 
-    // if (++_loops >= 10) {
-    //     _loops = 0;
-    //     printf("%s\n", _sb.c_str());
-    // }
-   
-
-//   std::cout << "Left Sensor Velocity: " << srx_Left_Back.GetSelectedSensorVelocity() << std::endl;
-
-//   std::cout << "Right Sensor Velocity: " << srxBR.GetSelectedSensorVelocity() << std::endl;
+    if (++_loops >= 10) {
+        _loops = 0;
+        printf("%s\n", _sb.c_str());
+    }
 
     toggleCameraMode();
 
@@ -189,7 +181,6 @@ void Robot::TeleopPeriodic() {
 //     frc::SmartDashboard::PutNumber("IR", IR);
 
 }
-
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
 
