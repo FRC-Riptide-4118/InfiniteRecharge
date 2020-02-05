@@ -38,7 +38,18 @@ frc::Servo conveyor_Hard_Stop(2);
 PigeonIMU IMU   = {2};
 int _loopCountIMU = 0;
 
+WPI_TalonSRX srx_left_front     = {0};
+WPI_TalonSRX srx_left_middle    = {1};
+WPI_VictorSPX spx_left_back      = {2};
 
+WPI_TalonSRX srx_right_front    = {3};
+WPI_TalonSRX srx_right_middle   = {4};
+WPI_VictorSPX spx_right_back     = {5};
+
+frc::SpeedControllerGroup left(srx_left_front, srx_left_middle, spx_left_back);
+frc::SpeedControllerGroup right(srx_right_front, srx_right_middle, spx_right_back);
+
+frc::DifferentialDrive drive(left, right);
 
 void Robot::RobotInit() {
     shifter = new GearShifter();
@@ -171,10 +182,10 @@ void Robot::TeleopPeriodic() {
     }
 
     //Driving/Turning of the robot
-    // double Turn = interaction->getTurn();
-    // double Drive = interaction->getDrive();
+    double Turn = interaction->getTurn();
+    double Drive = interaction->getDrive();
 
-    // drive.ArcadeDrive(Drive, Turn, true);
+    drive.ArcadeDrive(Drive, Turn, true);
 
 
 // ctre::pheonix::sensors::PigeonIMU::PigeonIMU(srx_left_back);
