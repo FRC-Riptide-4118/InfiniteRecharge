@@ -140,7 +140,6 @@ void Robot::TeleopPeriodic() {
     //     printf("%s\n", _sb.c_str());
     // }
 
-    toggleCameraMode();
 
     if ( interaction->getShiftGear() ) {
         shifter->ShiftGear();
