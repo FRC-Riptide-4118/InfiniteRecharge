@@ -22,7 +22,6 @@
 #include "networktables/NetworkTableInstance.h"
 #include <frc/smartdashboard/smartdashboard.h>
 
-
  std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
  frc::Servo elevator_Stop_Left  (0);
@@ -55,12 +54,6 @@ void Robot::RobotInit() {
     interaction = new Interactions( Controller1, Controller2 );
     pidgey = new PigeonIMU(&srx_left_middle);
     pidgey->SetFusedHeading(0);
-
-
-    m_colorMatcher.AddColorMatch(kBlueTarget);
-    m_colorMatcher.AddColorMatch(kGreenTarget);
-    m_colorMatcher.AddColorMatch(kRedTarget);
-    m_colorMatcher.AddColorMatch(kYellowTarget);
 
     FX1->ConfigFactoryDefault();
 
@@ -158,30 +151,6 @@ void Robot::TeleopPeriodic() {
     double Drive = interaction->getDrive();
 
     drive.ArcadeDrive(Drive, Turn, true);
-
-    frc::Color detectedColor = m_colorSensor.GetColor();
-
-    std::string colorString;
-    double confidence = 0.0;
-    frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
-
-    if (matchedColor == kBlueTarget) {
-        colorString = "Blue";
-    } else if (matchedColor == kRedTarget) {
-        colorString = "Red";
-    } else if (matchedColor == kGreenTarget) {
-        colorString = "Green";
-    } else if (matchedColor == kYellowTarget) {
-        colorString = "Yellow";
-    } else {
-        colorString = "Unknown";
-    }
-
-    // SmartDashboard telemetry
-    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-    frc::SmartDashboard::PutString("Color Decision", colorString);
 
 }
 void Robot::TestInit() {}
