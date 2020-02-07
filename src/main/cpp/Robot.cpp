@@ -102,17 +102,6 @@ void Robot::TeleopInit() {
     FX1->Set(ControlMode::PercentOutput, 0);
 }
 
-void Robot::toggleCameraMode() {
-
-    if (interaction->toggleLimeLightCamera()) {
-
-        table->PutNumber("camMode", !table->GetNumber("camMode", 0));
-        table->PutNumber("ledMode", !table->GetNumber("ledMode", 0));
-
-    }
-
-}
-
 void Robot::TeleopPeriodic() {
 
     double ypr[3];
@@ -198,6 +187,19 @@ void Robot::TeleopPeriodic() {
 }
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
+
+
+
+void Robot::toggleCameraMode() {
+
+    if (interaction->toggleLimeLightCamera()) {
+
+        table->PutNumber("camMode", !table->GetNumber("camMode", 0));
+        table->PutNumber("ledMode", !table->GetNumber("ledMode", 0));
+
+    }
+
+}
 
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
