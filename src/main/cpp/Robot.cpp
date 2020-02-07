@@ -34,8 +34,6 @@ frc::Servo conveyor_Hard_Stop(2);
 
 
 //pigeon imu setup
-PigeonIMU _pidgey = {2};
-
 
 WPI_TalonSRX srx_left_front     = {0};
 WPI_TalonSRX srx_left_middle    = {1};
@@ -57,7 +55,9 @@ void Robot::RobotInit() {
     Controller1 = new frc::XboxController(0);
     Controller2 = new frc::XboxController(1);
     interaction = new Interactions( Controller1, Controller2 );
-    _pidgey = new PigeonIMU(1);
+    pidgey = new PigeonIMU(&srx_left_middle);
+    pidgey->SetFusedHeading(0);
+
 
     m_colorMatcher.AddColorMatch(kBlueTarget);
     m_colorMatcher.AddColorMatch(kGreenTarget);
@@ -115,12 +115,12 @@ void Robot::toggleCameraMode() {
 
 }
 
-
 void Robot::TeleopPeriodic() {
 
     double ypr[3];
     double xyz_dps[3];
     double xyz_deg[3];
+    std::string yprstr;
 
 
     double TriggerAxis = Controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);   
@@ -164,11 +164,10 @@ void Robot::TeleopPeriodic() {
         intakeDeploy->deployIntake();
     }
 
-    if (Controller1->GetAButton()) {
-        frc::SmartDashboard::PutNumber("ypr: ", _pidgey->GetYawPitchRoll(ypr));
-        frc::SmartDashboard::PutNumber("XYZ_dps: ", _pidgey->GetRawGyro(xyz_dps));
-        frc::SmartDashboard::PutNumber("XYZ_Deg: ", _pidgey->GetAccumGyro(xyz_deg));
-    }
+
+    std::cout << pidgey->GetFusedHeading() << std::endl;
+
+
     //Driving/Turning of the robot
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
