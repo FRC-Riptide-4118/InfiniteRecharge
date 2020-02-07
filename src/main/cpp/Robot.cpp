@@ -33,7 +33,6 @@
 
 
 
-//pigeon imu setup
 WPI_TalonSRX srx_left_front     = {0};
 WPI_TalonSRX srx_left_middle    = {1};
 WPI_VictorSPX spx_left_back     = {2};
