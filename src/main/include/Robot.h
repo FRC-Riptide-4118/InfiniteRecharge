@@ -20,10 +20,11 @@ class Robot : public frc::TimedRobot {
   frc::XboxController *Controller2;
   Interactions *interaction;
   int _loops = 0;
+  int _loopsIMU = 0;
   bool shifter_highgear;
   GearShifter *shifter;
   Pneumatic_Intake *intakeDeploy;
-  PigeonIMU *_pidgey;
+  PigeonIMU *pidgey;
 
  public:
 
