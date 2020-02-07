@@ -183,7 +183,7 @@ void Robot::TeleopPeriodic() {
     if (matchedColor == kBlueTarget) {
         colorString = "Blue";
     } else if (matchedColor == kRedTarget) {
-        colorString= "Red";
+        colorString = "Red";
     } else if (matchedColor == kGreenTarget) {
         colorString = "Green";
     } else if (matchedColor == kYellowTarget) {
