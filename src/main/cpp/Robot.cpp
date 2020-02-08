@@ -131,7 +131,7 @@ void Robot::TeleopPeriodic() {
     // }
 
 
-    if ( interaction->getShiftGear() ) {
+    // std::cout << pidgey->GetFusedHeading() << std::endl;
 
 
 
@@ -143,7 +143,6 @@ void Robot::TeleopPeriodic() {
         intakeDeploy->deployIntake();
     }
 
-    std::cout << pidgey->GetFusedHeading() << std::endl;
     //Driving/Turning of the robot
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
