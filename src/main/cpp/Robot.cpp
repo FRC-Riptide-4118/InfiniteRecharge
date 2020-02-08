@@ -135,10 +135,11 @@ void Robot::TeleopPeriodic() {
 
 
 
+    if (interaction->getShiftGear()) {
         shifter->ShiftGear();
     }
 
-    if (interaction->deployPneumatic_Intake() ) {
+    if (interaction->deployPneumatic_Intake()) {
         intakeDeploy->deployIntake();
     }
 
@@ -147,7 +148,9 @@ void Robot::TeleopPeriodic() {
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
     drive.ArcadeDrive(Drive, Turn, true);
+
 }
+
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
 
