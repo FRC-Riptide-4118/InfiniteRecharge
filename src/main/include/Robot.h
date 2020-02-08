@@ -10,6 +10,7 @@
 #include "networktables/NetworkTableInstance.h"
 #include "Interactions.h"
 #include "CompBot/Intake/Pneumatic_Intake.h"
+#include "CompBot/ColorMatcher.h"
 
 class Robot : public frc::TimedRobot {
   private:
@@ -23,6 +24,7 @@ class Robot : public frc::TimedRobot {
     GearShifter *shifter;
     Pneumatic_Intake *intakeDeploy;
     PigeonIMU *pidgey;
+    ColorMatcher *matcher;
 
   public:
     void RobotInit() override;
