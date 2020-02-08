@@ -146,8 +146,6 @@ void Robot::TeleopPeriodic() {
     //Driving/Turning of the robot
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
-    drive.ArcadeDrive(Drive, Turn, true);
-
 }
 
 void Robot::TestInit() {}
