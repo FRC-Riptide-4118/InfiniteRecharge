@@ -27,7 +27,6 @@
  frc::Servo elevator_Stop_Left  (0);
  frc::Servo elevator_Stop_Right (1);
  frc::Servo conveyor_Hard_Stop  (2);
-
  frc::DigitalInput limitSwitch_Test {1};
 
 
@@ -72,16 +71,15 @@ void Robot::RobotInit() {
     FX1->Config_kI(kPIDLoopIdx, 0.0, kTimeoutMs);
     FX1->Config_kD(kPIDLoopIdx, 0.01, kTimeoutMs);
 
+
 //Initial speed of the motors
     drive.ArcadeDrive(0, 0, 0);
-//sensor setup
+
+    //sensor setup
     srx_right_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     srx_left_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
-
 }
-
 void Robot::AutonomousInit() {
-
 }
 
 void Robot::AutonomousPeriodic() {
@@ -89,7 +87,6 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-    
 //when teleop Initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
     FX1->Set(ControlMode::PercentOutput, 0);
@@ -135,6 +132,9 @@ void Robot::TeleopPeriodic() {
 
 
     if ( interaction->getShiftGear() ) {
+
+
+
         shifter->ShiftGear();
     }
 
@@ -142,31 +142,20 @@ void Robot::TeleopPeriodic() {
         intakeDeploy->deployIntake();
     }
 
-
     std::cout << pidgey->GetFusedHeading() << std::endl;
-
-
     //Driving/Turning of the robot
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
-
     drive.ArcadeDrive(Drive, Turn, true);
-
 }
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
 
-
-
 void Robot::toggleCameraMode() {
-
     if (interaction->toggleLimeLightCamera()) {
-
         table->PutNumber("camMode", !table->GetNumber("camMode", 0));
         table->PutNumber("ledMode", !table->GetNumber("ledMode", 0));
-
     }
-
 }
 
 #ifndef RUNNING_FRC_TESTS
