@@ -79,15 +79,13 @@ void Robot::RobotInit() {
     srx_right_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
     srx_left_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
 }
-void Robot::AutonomousInit() {
-}
 
-void Robot::AutonomousPeriodic() {
+void Robot::AutonomousInit() {}
 
-}
+void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-//when teleop Initialy starts sets speed of all the motors
+    // When teleop initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
     FX1->Set(ControlMode::PercentOutput, 0);
 }
