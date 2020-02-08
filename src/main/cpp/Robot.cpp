@@ -92,10 +92,10 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
 
-    double ypr[3];
-    double xyz_dps[3];
-    double xyz_deg[3];
-    std::string yprstr;
+    // double ypr[3];
+    // double xyz_dps[3];
+    // double xyz_deg[3];
+    // std::string yprstr;
 
     // double TriggerAxis = Controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);   
     // double motorOutput = FX1->GetMotorOutputPercent();
