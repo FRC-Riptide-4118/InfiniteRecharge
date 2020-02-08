@@ -71,6 +71,8 @@ void Robot::RobotInit() {
     FX1->Config_kI(kPIDLoopIdx, 0.0, kTimeoutMs);
     FX1->Config_kD(kPIDLoopIdx, 0.01, kTimeoutMs);
 
+    // Color Matcher
+    matcher = new ColorMatcher;
 
 //Initial speed of the motors
     drive.ArcadeDrive(0, 0, 0);
@@ -144,6 +146,14 @@ void Robot::TeleopPeriodic() {
     //Driving/Turning of the robot
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
+    bool squareInputs = true;
+    drive.ArcadeDrive(Drive, Turn, squareInputs);
+
+    // Color sensor
+    matcher->getSeenColor();
+    matcher->getMatchedColor();
+    bool putColor = true;
+    matcher->putDashboardTelemetry(putColor);
 }
 
 void Robot::TestInit() {}
