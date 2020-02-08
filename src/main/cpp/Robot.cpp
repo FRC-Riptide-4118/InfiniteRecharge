@@ -22,12 +22,11 @@
 #include "networktables/NetworkTableInstance.h"
 #include <frc/smartdashboard/smartdashboard.h>
 
- std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
- frc::Servo elevator_Stop_Left  (0);
- frc::Servo elevator_Stop_Right (1);
- frc::Servo conveyor_Hard_Stop  (2);
- frc::DigitalInput limitSwitch_Test {1};
+frc::Servo elevator_Stop_Left  (0);
+frc::Servo elevator_Stop_Right (1);
+frc::Servo conveyor_Hard_Stop  (2);
 
 
 
@@ -68,13 +67,13 @@ void Robot::RobotInit() {
 
     FX1->Config_kF(kPIDLoopIdx, 0.045, kTimeoutMs);
     FX1->Config_kP(kPIDLoopIdx, 0.069, kTimeoutMs);
-    FX1->Config_kI(kPIDLoopIdx, 0.0, kTimeoutMs);
-    FX1->Config_kD(kPIDLoopIdx, 0.01, kTimeoutMs);
+    FX1->Config_kI(kPIDLoopIdx, 0.000, kTimeoutMs);
+    FX1->Config_kD(kPIDLoopIdx, 0.010, kTimeoutMs);
 
     // Color Matcher
     matcher = new ColorMatcher;
 
-//Initial speed of the motors
+    //Initial speed of the motors
     drive.ArcadeDrive(0, 0, 0);
 
     //sensor setup
