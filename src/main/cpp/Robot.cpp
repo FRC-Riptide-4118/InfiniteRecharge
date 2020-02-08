@@ -28,6 +28,7 @@ frc::Servo elevator_Stop_Left  (0);
 frc::Servo elevator_Stop_Right (1);
 frc::Servo conveyor_Hard_Stop  (2);
 
+frc::DigitalInput limitSwitch_Test {1};
 
 
 WPI_TalonSRX srx_left_front     = {0};
