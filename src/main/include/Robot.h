@@ -12,31 +12,29 @@
 #include "CompBot/Intake/Pneumatic_Intake.h"
 
 class Robot : public frc::TimedRobot {
- private:
-  TalonFX *FX1;
-  frc::XboxController *Controller1;
-  frc::XboxController *Controller2;
-  Interactions *interaction;
-  int _loops = 0;
-  int _loopsIMU = 0;
-  bool shifter_highgear;
-  GearShifter *shifter;
-  Pneumatic_Intake *intakeDeploy;
-  PigeonIMU *pidgey;
+  private:
+    TalonFX *FX1;
+    frc::XboxController *Controller1;
+    frc::XboxController *Controller2;
+    Interactions *interaction;
+    int _loops = 0;
+    int _loopsIMU = 0;
+    bool shifter_highgear;
+    GearShifter *shifter;
+    Pneumatic_Intake *intakeDeploy;
+    PigeonIMU *pidgey;
 
- public:
+  public:
+    void RobotInit() override;
 
+    void AutonomousInit() override;
+    void AutonomousPeriodic() override;
 
-  void RobotInit() override;
+    void TeleopInit() override;
+    void TeleopPeriodic() override;
 
-  void AutonomousInit() override;
-  void AutonomousPeriodic() override;
+    void TestInit() override;
+    void TestPeriodic() override;
 
-  void TeleopInit() override;
-  void TeleopPeriodic() override;
-
-  void TestInit() override;
-  void TestPeriodic() override;
-
-  void toggleCameraMode();
+    void toggleCameraMode();
 };
