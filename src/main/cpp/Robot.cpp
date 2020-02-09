@@ -18,11 +18,11 @@
 #include "ctre/Phoenix.h"
 #include <frc/DigitalInput.h>
 #include <frc/Servo.h>
-#include "networktables/NetworkTable.h"
-#include "networktables/NetworkTableInstance.h"
 #include <frc/smartdashboard/smartdashboard.h>
+#include "LimeLight.h"
 
 std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+
 
 frc::Servo elevator_Stop_Left  (0);
 frc::Servo elevator_Stop_Right (1);
@@ -53,6 +53,8 @@ void Robot::RobotInit() {
     interaction = new Interactions( Controller1, Controller2 );
     pidgey = new PigeonIMU(&srx_left_middle);
     pidgey->SetFusedHeading(0);
+
+    // visiontracking = new VisionTracking(frc::XboxController *controller1, frc::DifferentialDrive drive);
 
     FX1->ConfigFactoryDefault();
 
@@ -87,9 +89,11 @@ void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
+
     // When teleop initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
     FX1->Set(ControlMode::PercentOutput, 0);
+
 }
 
 void Robot::TeleopPeriodic() {
@@ -155,29 +159,29 @@ void Robot::TeleopPeriodic() {
     bool putColor = true;
     matcher->putDashboardTelemetry(putColor);
 
-    // if (Controller1->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
-    //     toggleCameraMode();
-    // }
+    if (Controller1->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
+        toggleCameraMode();
+    }
 
-    // float Kp = -0.1;
-    // float min_command = 0.5;
+    float Kp = -0.1;
+    float min_command = 0.5;
 
 
-    // double tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
+    double tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
 
-    // if (Controller1->GetBumper(frc::GenericHID::GenericHID::JoystickHand::kRightHand)) {
+    if (Controller1->GetBumper(frc::GenericHID::GenericHID::JoystickHand::kRightHand)) {
 
-    //     double   heading_error = -tx;
-    //     double   steering_adjust = 0.0;
+        double   heading_error = -tx;
+        double   steering_adjust = 0.0;
 
-    //         if (tx > 1.0) {
-    //             steering_adjust = Kp*heading_error - min_command;
-    //         } else if (tx < 1.0) {
-    //             steering_adjust = Kp*heading_error + min_command;
-    //         }
+            if (tx > 1.0) {
+                steering_adjust = Kp*heading_error - min_command;
+            } else if (tx < 1.0) {
+                steering_adjust = Kp*heading_error + min_command;
+            }
 
-    //         drive.ArcadeDrive( 0, steering_adjust, 1 );
-    // }
+            drive.ArcadeDrive( 0, steering_adjust, 1 );
+    }
 }
 
 void Robot::TestInit() {}
@@ -191,5 +195,7 @@ void Robot::toggleCameraMode() {
 }
 
 #ifndef RUNNING_FRC_TESTS
-int main() { return frc::StartRobot<Robot>(); }
+int main() { 
+    return frc::StartRobot<Robot>(); 
+    }
 #endif

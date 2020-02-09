@@ -11,6 +11,7 @@
 #include "Interactions.h"
 #include "CompBot/Intake/Pneumatic_Intake.h"
 #include "CompBot/ColorMatcher.h"
+#include "LimeLight.h"
 
 class Robot : public frc::TimedRobot {
   private:
@@ -25,6 +26,7 @@ class Robot : public frc::TimedRobot {
     Pneumatic_Intake *intakeDeploy;
     PigeonIMU *pidgey;
     ColorMatcher *matcher;
+    // VisionTracking *visiontracking;
 
   public:
     void RobotInit() override;
