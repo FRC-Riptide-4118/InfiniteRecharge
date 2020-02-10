@@ -160,31 +160,13 @@ void Robot::AutonomousPeriodic() {
         }
         
         if (FX1->GetSelectedSensorVelocity(kPIDLoopIdx) > 16000 or FX1->GetSelectedSensorVelocity(kPIDLoopIdx) < 18000) {
-        conveyor_motor.Set(ControlMode::PercentOutput, 1);
-    } else {
-        conveyor_motor.Set(ControlMode::PercentOutput, 0);
-    }
-
-    if (interaction->runIntake()) {
-        intake_motor.Set(ControlMode::PercentOutput, 100);
-    } else {
-        intake_motor.Set(ControlMode::PercentOutput, 0);
-    }
-
-    if (interaction->conveyorHardStop()) {
-        conveyor_Hard_Stop.Set(1);
-        conveyor_Hard_Stop2.Set(1);
-    } else {
+        conveyor_motor.Set(ControlMode::PercentOutput, 50);
         conveyor_Hard_Stop.Set(0);
         conveyor_Hard_Stop2.Set(0);
-    }
-
-    if (interaction->turnEleServo()) {
-        elevator_Stop_Left.Set(1);
-        elevator_Stop_Right.Set(1);
     } else {
-        elevator_Stop_Left.Set(0);
-        elevator_Stop_Right.Set(0);
+        conveyor_motor.Set(ControlMode::PercentOutput, 0);
+        conveyor_Hard_Stop.Set(1);
+        conveyor_Hard_Stop2.Set(1);
     }
 
 }
@@ -224,10 +206,32 @@ void Robot::TeleopPeriodic() {
     bool putColor = true;
     matcher->putDashboardTelemetry(putColor);
 
+if (interaction->runIntake()) {
+        intake_motor.Set(ControlMode::PercentOutput, 50);
+        conveyor_motor.Set(ControlMode::PercentOutput, 50);
+    } else {
+        intake_motor.Set(ControlMode::PercentOutput, 0);
+        conveyor_motor.Set(ControlMode::PercentOutput, 0);
+    }
+
+    if (interaction->conveyorHardStop()) {
+        conveyor_Hard_Stop.Set(1);
+        conveyor_Hard_Stop2.Set(1);
+    } else {
+        conveyor_Hard_Stop.Set(0);
+        conveyor_Hard_Stop2.Set(0);
+    }
+
+    if (interaction->turnEleServo()) {
+        elevator_Stop_Left.Set(1);
+        elevator_Stop_Right.Set(1);
+    } else {
+        elevator_Stop_Left.Set(0);
+        elevator_Stop_Right.Set(0);
+    }
+
     visionTracking();
     elevatorControl();
-
-
 
 }
 
@@ -269,7 +273,7 @@ void Robot::toggleCameraMode() {
 void Robot::autoGearShifter() {
     if (srx_left_front.GetSelectedSensorVelocity() > 11000 and srx_right_front.GetSelectedSensorVelocity() > 11000) {
         shifter.Set(frc::DoubleSolenoid::kForward);
-    } else if (srx_left_front.GetSelectedSensorVelocity() < 11000 and srx_right_front.GetSelectedSensorVelocity() < 11000) {
+    } else if (srx_left_front.GetSelectedSensorVelocity() < 10000 and srx_right_front.GetSelectedSensorVelocity() < 10000) {
         shifter.Set(frc::DoubleSolenoid::kReverse);
     }
 }
