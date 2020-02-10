@@ -15,7 +15,10 @@ class Interactions {
     double getDrive();
     bool getShiftGear();
     bool enterPIDFXClosedLoop();
-    double shooterRawSpeed();
+    double elevatorDown();
+    double elevatorUp();
     bool toggleLimeLightCamera();
     bool deployPneumatic_Intake();
+    bool visionControl();
+    bool driveElevatorDown();
 };

@@ -8,9 +8,9 @@
 This is the mapping of all buttons on the controller:
 
     -Left Bumper
-        - Unassigned
+        - Elevator down along with trigger
     -Right Bumper
-        - Unassigned
+        - 
     -Left Joystick
         - The Y axis of the computer for driving
     -Right Joystick
@@ -44,7 +44,7 @@ Interactions::Interactions( frc::XboxController *icontroller1, frc::XboxControll
 }
 
 double Interactions::getTurn() {
-    return controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
+    return controller1->GetX(frc::GenericHID::JoystickHand::kRightHand);
 }
 
 double Interactions::getDrive() {
@@ -59,8 +59,12 @@ bool Interactions::enterPIDFXClosedLoop() {
     return controller1->GetXButtonPressed();
 }
 
-double Interactions::shooterRawSpeed() {
+double Interactions::elevatorDown() {
     return controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand);
+}
+
+double Interactions::elevatorUp() {
+    return controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
 }
 
 bool Interactions::toggleLimeLightCamera() {
@@ -69,4 +73,12 @@ bool Interactions::toggleLimeLightCamera() {
 
 bool Interactions::deployPneumatic_Intake() {
     return controller1->GetStartButtonPressed();
+}
+
+bool Interactions::visionControl() {
+    return controller1->GetYButtonPressed();
+}
+
+bool Interactions::driveElevatorDown() {
+    return controller1->GetBumper(frc::GenericHID::JoystickHand::kLeftHand);
 }
