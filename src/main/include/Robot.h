@@ -1,7 +1,6 @@
 #pragma once
 #include <frc/TimedRobot.h>
 #include "ctre/Phoenix.h"
-#include "CompBot/Drivetrain/GearShifter.h"
 #include <frc/GenericHID.h>
 #include <frc/XboxController.h>
 #include <frc/DigitalInput.h>
