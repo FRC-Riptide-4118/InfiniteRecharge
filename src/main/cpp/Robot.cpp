@@ -194,8 +194,62 @@ void Robot::toggleCameraMode() {
     }
 }
 
-#ifndef RUNNING_FRC_TESTS
-int main() { 
-    return frc::StartRobot<Robot>(); 
+void Robot::autoGearShifter() {
+    if (srx_left_front.GetSelectedSensorVelocity() > 11000 and srx_right_front.GetSelectedSensorVelocity() > 11000) {
+        shifter.Set(frc::DoubleSolenoid::kForward);
+    } else if (srx_left_front.GetSelectedSensorVelocity() < 11000 and srx_right_front.GetSelectedSensorVelocity() < 11000) {
+        shifter.Set(frc::DoubleSolenoid::kReverse);
     }
+}
+
+void Robot::shooterVelTracking() {
+    double motorOutput = FX1->GetMotorOutputPercent();
+    std::string _sb;
+
+    _sb.append("\tout");
+    _sb.append(std::to_string(motorOutput));
+    _sb.append("\tspd: ");
+
+    _sb.append(std::to_string(FX1->GetSelectedSensorVelocity(kPIDLoopIdx)));
+
+    if(interaction->enterPIDFXClosedLoop()) {
+
+        double targetVelocity_UnitsPer100Ms = 17000;
+
+        FX1->Set(ControlMode::Velocity, targetVelocity_UnitsPer100Ms);
+
+
+        _sb.append("\terrNative:");
+        _sb.append(std::to_string(FX1->GetClosedLoopError(kPIDLoopIdx)));
+        _sb.append("\ttrg:");
+        _sb.append(std::to_string(targetVelocity_UnitsPer100Ms));
+    } 
+
+    if (++_loops >= 10) {
+        _loops = 0;
+        printf("%s\n", _sb.c_str());
+    }
+
+    if (FX1->GetSelectedSensorVelocity(kPIDLoopIdx) > 16000 or FX1->GetSelectedSensorVelocity(kPIDLoopIdx) < 18000) {
+        conveyor_motor.Set(ControlMode::PercentOutput, 1);
+    } else {
+        conveyor_motor.Set(ControlMode::PercentOutput, 0);
+    }
+
+}
+
+void Robot::elevatorControl() {
+    double ele_Up   = interaction->elevatorUp();
+    double ele_Down = interaction->elevatorDown();
+
+    elevator.ArcadeDrive(ele_Up, 0, squareInputs);
+
+    if (interaction->driveElevatorDown()) {
+            elevator.ArcadeDrive(-ele_Down, 0, squareInputs);
+    } 
+
+} 
+
+#ifndef RUNNING_FRC_TESTS
+int main() { return frc::StartRobot<Robot>(); }
 #endif

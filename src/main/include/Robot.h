@@ -21,14 +21,13 @@ class Robot : public frc::TimedRobot {
     Interactions *interaction;
     int _loops = 0;
     int _loopsIMU = 0;
-    bool shifter_highgear;
-    GearShifter *shifter;
     Pneumatic_Intake *intakeDeploy;
     PigeonIMU *pidgey;
     ColorMatcher *matcher;
     // VisionTracking *visiontracking;
 
   public:
+
     void RobotInit() override;
 
     void AutonomousInit() override;
@@ -41,4 +40,12 @@ class Robot : public frc::TimedRobot {
     void TestPeriodic() override;
 
     void toggleCameraMode();
+
+    void autoGearShifter();
+
+    void shooterVelTracking();
+
+    void visionTracking();
+
+    void elevatorControl();
 };
