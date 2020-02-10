@@ -20,19 +20,27 @@
 #include <frc/Servo.h>
 #include <frc/smartdashboard/smartdashboard.h>
 #include "LimeLight.h"
+#include <chrono>
 
 std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
+WPI_VictorSPX ele_left  = {7}; 
+WPI_VictorSPX ele_right = {8};
 
-frc::Servo elevator_Stop_Left  (0);
-frc::Servo elevator_Stop_Right (1);
-frc::Servo conveyor_Hard_Stop  (2);
+frc::SpeedControllerGroup ele_leftSPG(ele_left);
+frc::SpeedControllerGroup ele_rightSPG(ele_right);
 
-frc::DigitalInput limitSwitch_Test {1};
+frc::DifferentialDrive elevator(ele_leftSPG, ele_rightSPG);
 
+WPI_VictorSPX intake_motor = {9};
 
+WPI_VictorSPX conveyor_motor = {10};
 
+// frc::Servo elevator_Stop_Left  (0);
+// frc::Servo elevator_Stop_Right (1);
+// frc::Servo conveyor_Hard_Stop  (2);
 
+// frc::DigitalInput limitSwitch_Test {1};
 
 
 WPI_TalonSRX srx_left_front     = {0};
@@ -48,11 +56,12 @@ frc::SpeedControllerGroup right(srx_right_front, srx_right_middle, spx_right_bac
 
 frc::DifferentialDrive drive(left, right);
 
+frc::DoubleSolenoid shifter(0, 0, 1);
 
+bool squareInputs = true;
 
 
 void Robot::RobotInit() {
-    shifter = new GearShifter();
     intakeDeploy = new Pneumatic_Intake();
     FX1 = new TalonFX(6);
     Controller1 = new frc::XboxController(0);
@@ -60,8 +69,6 @@ void Robot::RobotInit() {
     interaction = new Interactions( Controller1, Controller2 );
     pidgey = new PigeonIMU(&srx_left_middle);
     pidgey->SetFusedHeading(0);
-
-    // visiontracking = new VisionTracking(frc::XboxController *controller1, frc::DifferentialDrive drive);
 
     FX1->ConfigFactoryDefault();
 
@@ -91,16 +98,80 @@ void Robot::RobotInit() {
     srx_left_front.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0);
 }
 
-void Robot::AutonomousInit() {}
+void Robot::AutonomousInit() {
 
-void Robot::AutonomousPeriodic() {}
+    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+
+    drive.ArcadeDrive(-10, 0, squareInputs);
+    if (std::chrono::steady_clock::now() - start > std::chrono::seconds(3)) {
+        drive.ArcadeDrive(0, 0, squareInputs);
+    }
+
+}
+
+void Robot::AutonomousPeriodic() {
+
+    autoGearShifter();
+
+    float Kp = -0.1;
+    float min_command = 0.5;
+    int i = 0;
+
+    while (i < 50) {
+    
+    i++;
+    double tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
+
+        double   heading_error = -tx;
+        double   steering_adjust = 0.0;
+
+            if (tx > 1.0) {
+                steering_adjust = Kp*heading_error - min_command;
+            } else if (tx < 1.0) {
+                steering_adjust = Kp*heading_error + min_command;
+            }
+
+    drive.ArcadeDrive(0, steering_adjust, squareInputs);
+
+    }
+
+    std::string _sb;
+    double motorOutput = FX1->GetMotorOutputPercent();
+
+        _sb.append("\tout");
+        _sb.append(std::to_string(motorOutput));
+        _sb.append("\tspd: ");
+
+        _sb.append(std::to_string(FX1->GetSelectedSensorVelocity(kPIDLoopIdx)));
+
+            double targetVelocity_UnitsPer100Ms = 17000;
+
+            FX1->Set(ControlMode::Velocity, targetVelocity_UnitsPer100Ms);
+
+
+            _sb.append("\terrNative:");
+            _sb.append(std::to_string(FX1->GetClosedLoopError(kPIDLoopIdx)));
+            _sb.append("\ttrg:");
+            _sb.append(std::to_string(targetVelocity_UnitsPer100Ms));
+
+        if (++_loops >= 10) {
+            _loops = 0;
+            printf("%s\n", _sb.c_str());
+        }
+        
+        if (FX1->GetSelectedSensorVelocity(kPIDLoopIdx) > 16000 or FX1->GetSelectedSensorVelocity(kPIDLoopIdx) < 18000) {
+        conveyor_motor.Set(ControlMode::PercentOutput, 1);
+    } else {
+        conveyor_motor.Set(ControlMode::PercentOutput, 0);
+    }
+
+}
 
 void Robot::TeleopInit() {
 
     // When teleop initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
     FX1->Set(ControlMode::PercentOutput, 0);
-    }
 
 }
 
@@ -111,56 +182,10 @@ void Robot::TeleopPeriodic() {
     // double xyz_deg[3];
     // std::string yprstr;
 
-    // double TriggerAxis = Controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);   
-    // double motorOutput = FX1->GetMotorOutputPercent();
-    // std::string _sb;
-
-    // _sb.append("\tout");
-    // _sb.append(std::to_string(motorOutput));
-    // _sb.append("\tspd: ");
-
-    // _sb.append(std::to_string(FX1->GetSelectedSensorVelocity(kPIDLoopIdx)));
-
-    // if(Controller1->GetXButton()) {
-
-    //     double targetVelocity_UnitsPer100Ms = 17000;
-                steering_adjust = Kp*heading_error + min_command;
-
-    //     FX1->Set(ControlMode::Velocity, targetVelocity_UnitsPer100Ms);
-
-    }
-
-    //     _sb.append("\terrNative:");
-    //     _sb.append(std::to_string(FX1->GetClosedLoopError(kPIDLoopIdx)));
-    //     _sb.append("\ttrg:");
-    //     _sb.append(std::to_string(targetVelocity_UnitsPer100Ms));
-    // } else {
-
-    //     FX1->Set(ControlMode::PercentOutput, TriggerAxis);
-    // }
-
-    // if (++_loops >= 10) {
-    //     _loops = 0;
-    //     printf("%s\n", _sb.c_str());
-    // }
-
+    autoGearShifter();
+    shooterVelTracking();
 
     // std::cout << pidgey->GetFusedHeading() << std::endl;
-
-
-
-    if (interaction->getShiftGear()) {
-        shifter->ShiftGear();
-        
-    }
-
-
-
-
-
-
-
-
 
     if (interaction->deployPneumatic_Intake()) {
         intakeDeploy->deployIntake();
@@ -169,7 +194,6 @@ void Robot::TeleopPeriodic() {
     //Driving/Turning of the robot
     double Turn = interaction->getTurn();
     double Drive = interaction->getDrive();
-    bool squareInputs = true;
     drive.ArcadeDrive(Drive, Turn, squareInputs);
 
     // Color sensor
@@ -178,9 +202,19 @@ void Robot::TeleopPeriodic() {
     bool putColor = true;
     matcher->putDashboardTelemetry(putColor);
 
-    if (Controller1->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
-        toggleCameraMode();
-    }
+    visionTracking();
+    elevatorControl();
+
+
+
+}
+
+void Robot::TestInit() {}
+void Robot::TestPeriodic() {}
+
+void Robot::visionTracking() {
+     
+    toggleCameraMode();
 
     float Kp = -0.1;
     float min_command = 0.5;
@@ -201,9 +235,6 @@ void Robot::TeleopPeriodic() {
             drive.ArcadeDrive( 0, steering_adjust, 1 );
     }
 }
-
-void Robot::TestInit() {}
-void Robot::TestPeriodic() {}
 
 void Robot::toggleCameraMode() {
     if (interaction->toggleLimeLightCamera()) {
