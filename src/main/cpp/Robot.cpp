@@ -31,6 +31,10 @@ frc::Servo conveyor_Hard_Stop  (2);
 frc::DigitalInput limitSwitch_Test {1};
 
 
+
+
+
+
 WPI_TalonSRX srx_left_front     = {0};
 WPI_TalonSRX srx_left_middle    = {1};
 WPI_VictorSPX spx_left_back     = {2};
@@ -43,6 +47,9 @@ frc::SpeedControllerGroup left(srx_left_front, srx_left_middle, spx_left_back);
 frc::SpeedControllerGroup right(srx_right_front, srx_right_middle, spx_right_back);
 
 frc::DifferentialDrive drive(left, right);
+
+
+
 
 void Robot::RobotInit() {
     shifter = new GearShifter();
@@ -93,6 +100,7 @@ void Robot::TeleopInit() {
     // When teleop initialy starts sets speed of all the motors
     drive.ArcadeDrive(0, 0, 0);
     FX1->Set(ControlMode::PercentOutput, 0);
+    }
 
 }
 
@@ -116,9 +124,11 @@ void Robot::TeleopPeriodic() {
     // if(Controller1->GetXButton()) {
 
     //     double targetVelocity_UnitsPer100Ms = 17000;
+                steering_adjust = Kp*heading_error + min_command;
 
     //     FX1->Set(ControlMode::Velocity, targetVelocity_UnitsPer100Ms);
 
+    }
 
     //     _sb.append("\terrNative:");
     //     _sb.append(std::to_string(FX1->GetClosedLoopError(kPIDLoopIdx)));
@@ -141,7 +151,16 @@ void Robot::TeleopPeriodic() {
 
     if (interaction->getShiftGear()) {
         shifter->ShiftGear();
+        
     }
+
+
+
+
+
+
+
+
 
     if (interaction->deployPneumatic_Intake()) {
         intakeDeploy->deployIntake();
@@ -166,10 +185,9 @@ void Robot::TeleopPeriodic() {
     float Kp = -0.1;
     float min_command = 0.5;
 
-
     double tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
 
-    if (Controller1->GetBumper(frc::GenericHID::GenericHID::JoystickHand::kRightHand)) {
+    if (interaction->visionControl()) {
 
         double   heading_error = -tx;
         double   steering_adjust = 0.0;
