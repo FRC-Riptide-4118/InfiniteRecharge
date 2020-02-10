@@ -10,29 +10,29 @@ This is the mapping of all buttons on the controller:
     -Left Bumper
         - Elevator down along with trigger
     -Right Bumper
-        - 
+        - Servos on the elevator
     -Left Joystick
         - The Y axis of the computer for driving
     -Right Joystick
         - The X axis of the computer for driving/turning
     -Right Trigger
-        - Changing the value of the Falcon 500
+        - Making the elevator go up and down
     -Left Trigger
         - Unassigned
     -X Button
-        - Enters closed loop target positioning
+        - Enters closed loop target velocity
     -A Button
         - toggleCameraMode
     -B Button 
-        - High/low gear shifting
+        - Running the intake
     -Y Button
-        - 
+        - visionControl
     -Left Joystick Button
         - Unassigned
     -Right Joystick Button
         - Unassigned
     -Start Button
-        - Unassigned
+        - deploy the intake
     -Back Button
         -unassigned
 
@@ -59,12 +59,8 @@ bool Interactions::enterPIDFXClosedLoop() {
     return controller1->GetXButtonPressed();
 }
 
-double Interactions::elevatorDown() {
+double Interactions::elevatorControl() {
     return controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand);
-}
-
-double Interactions::elevatorUp() {
-    return controller1->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand);
 }
 
 bool Interactions::toggleLimeLightCamera() {
@@ -81,4 +77,16 @@ bool Interactions::visionControl() {
 
 bool Interactions::driveElevatorDown() {
     return controller1->GetBumper(frc::GenericHID::JoystickHand::kLeftHand);
+}
+
+bool Interactions::runIntake() {
+    return controller1->GetBButton();
+}
+
+bool Interactions::turnEleServo() {
+    return controller1->GetBumper(frc::GenericHID::JoystickHand::kRightHand);
+}
+
+bool Interactions::conveyorHardStop() {
+    return controller1->GetStartButton();
 }

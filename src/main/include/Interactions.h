@@ -15,10 +15,12 @@ class Interactions {
     double getDrive();
     bool getShiftGear();
     bool enterPIDFXClosedLoop();
-    double elevatorDown();
-    double elevatorUp();
+    double elevatorControl();
     bool toggleLimeLightCamera();
     bool deployPneumatic_Intake();
     bool visionControl();
     bool driveElevatorDown();
+    bool runIntake();
+    bool turnEleServo();
+    bool conveyorHardStop();
 };

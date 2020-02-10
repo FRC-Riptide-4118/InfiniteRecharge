@@ -35,11 +35,12 @@ WPI_VictorSPX intake_motor = {9};
 
 WPI_VictorSPX conveyor_motor = {10};
 
-// frc::Servo elevator_Stop_Left  (0);
-// frc::Servo elevator_Stop_Right (1);
-// frc::Servo conveyor_Hard_Stop  (2);
+frc::Servo elevator_Stop_Left  (0);
+frc::Servo elevator_Stop_Right (1);
+frc::Servo conveyor_Hard_Stop  (2);
+frc::Servo conveyor_Hard_Stop2 (3);
 
-// frc::DigitalInput limitSwitch_Test {1};
+frc::DigitalInput limitSwitch_Test {1};
 
 
 WPI_TalonSRX srx_left_front     = {0};
@@ -164,6 +165,28 @@ void Robot::AutonomousPeriodic() {
         conveyor_motor.Set(ControlMode::PercentOutput, 0);
     }
 
+    if (interaction->runIntake()) {
+        intake_motor.Set(ControlMode::PercentOutput, 100);
+    } else {
+        intake_motor.Set(ControlMode::PercentOutput, 0);
+    }
+
+    if (interaction->conveyorHardStop()) {
+        conveyor_Hard_Stop.Set(1);
+        conveyor_Hard_Stop2.Set(1);
+    } else {
+        conveyor_Hard_Stop.Set(0);
+        conveyor_Hard_Stop2.Set(0);
+    }
+
+    if (interaction->turnEleServo()) {
+        elevator_Stop_Left.Set(1);
+        elevator_Stop_Right.Set(1);
+    } else {
+        elevator_Stop_Left.Set(0);
+        elevator_Stop_Right.Set(0);
+    }
+
 }
 
 void Robot::TeleopInit() {
@@ -233,6 +256,7 @@ void Robot::visionTracking() {
 
             drive.ArcadeDrive( 0, steering_adjust, 1 );
     }
+
 }
 
 void Robot::toggleCameraMode() {
@@ -287,13 +311,12 @@ void Robot::shooterVelTracking() {
 }
 
 void Robot::elevatorControl() {
-    double ele_Up   = interaction->elevatorUp();
-    double ele_Down = interaction->elevatorDown();
+    double ele_control   = interaction->elevatorControl();
 
-    elevator.ArcadeDrive(ele_Up, 0, squareInputs);
+    elevator.ArcadeDrive(ele_control, 0, squareInputs);
 
     if (interaction->driveElevatorDown()) {
-            elevator.ArcadeDrive(-ele_Down, 0, squareInputs);
+            elevator.ArcadeDrive(-ele_control, 0, squareInputs);
     } 
 
 } 
